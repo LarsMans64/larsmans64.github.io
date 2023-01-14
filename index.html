@@ -3,39 +3,37 @@
 <link rel="stylesheet" href="./style.css">
 
 <head>
-    <title>LarsMans Website</title>
+	<title>LarsMans Website</title>
+	<link rel="icon" href="./kermit-circle.png">
 </head>
 
 <html>
-    <body>
-        <h1>Lars' HTML learning journey</h1>
+	<body>
+		<div class="title">
+			<div id="left">
+				<img id="title-img" src="./kermit-circle.png">
+				<h1 id="title-text">Lars' HTML learning journey</h1>
+			</div>
+			<div id="right">
+			<a href="./hi.html">
+				<p>Go to hi page</p>
+			</a>
+			</div>
+		</div>
 
-        <div id="watermelonman">
-            <p>Take some watermelon man:</p>
-            <iframe class="round-corners" src="https://www.youtube.com/embed/ppJQKfqhFfE" title="Watermelon Man" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
+		<div class="the-rest">
+			<div id="watermelonman">
+				<p>Take some watermelon man:</p>
+				<iframe class="round-corners" src="https://www.youtube.com/embed/ppJQKfqhFfE" title="Watermelon Man" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+			</div>
+			<img id="button-img" src="https://i.imgur.com/jkStdkN.png" class="round-corners"/>
 
-        <br>
-
-        <img src="https://i.imgur.com/jkStdkN.png" class="round-corners"/>
-
-        <a href="./hi.html">
-            <p>go to hi page</p>
-        </a>
-
-        <br>
-        
-        <form action="./index.html" method="post">
-            <label for="form">We got the best text here</label>
-            <input type="text" list="list" name="form" id="form">
-            <datalist id="list">
-                <option value="this"></option>
-                <option value="is"></option>
-                <option value="a"></option>
-                <option value="datalist"></option>
-            </datalist>
-        </form>
-
-        <br>
-    </body>
+			
+			<form action="./index.html" method="post">
+				<label for="form">We got the best text here:</label>
+				<input type="text" name="form" id="form">
+			</form>
+			<br>
+		</div>
+	</body>
 </html>

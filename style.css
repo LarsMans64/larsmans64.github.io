@@ -1,8 +1,43 @@
 body {
     font-family: 'Atkinson Hyperlegible', sans-serif;
     font-size: 150%;
-    color: #eeeeee;
-    background-color: #303030;
+    color: #ddd;
+    margin: 0;
+    background-color: #333;
+}
+
+.title {
+    background-color: #222;
+    padding: 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#left {
+    height: inherit;
+    display: flex;
+    align-items: center;
+}
+
+#right {
+    height: inherit;
+    display: flex;
+    align-items: center;
+}
+
+#title-text {
+    text-align: center;
+}
+
+#title-img {
+    height: inherit;
+    margin-right: 20px;
+}
+
+.the-rest {
+    padding: 40px;
 }
 
 iframe {
@@ -11,9 +46,10 @@ iframe {
     max-width: 100%;
 }
 
-img {
+#button-img {
     width: 700px;
     max-width: 100%;
+    margin-top: 20px;
 }
 
 .round-corners {
@@ -21,10 +57,15 @@ img {
 }
 
 input[type=text] {
-    width: 200;
-    padding: 14px;
-    border: 1px solid #404040;
+    font-size: 100%;
+    padding: 10px;
+    border: 0px solid #444;
     border-radius: 6px;
-    background-color: #404040;
-    color: #eeeeee;
+    background-color: #444;
+    color: #ddd;
+}
+
+a {
+    color: #aaf;
+    text-decoration: none;
 }
