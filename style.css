@@ -6,10 +6,13 @@ body {
 }
 
 iframe {
-    object-fit: cover;
+    width: 700px;
+    height: 700px ;
+    max-width: 100%;
 }
 
 img {
+    width: 700px;
     max-width: 100%;
 }
 
@@ -18,8 +21,9 @@ img {
 }
 
 input[type=text] {
-    width: 20%;
-    padding: 12px;
+    width: 200;
+    padding: 14px;
+    border: 1px solid #404040;
     border-radius: 6px;
     background-color: #404040;
     color: #eeeeee;
