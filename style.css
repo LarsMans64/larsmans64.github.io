@@ -35,6 +35,7 @@ body {
 .right-link {
     padding: 15px;
     margin-right: 50px;
+    border: 5px solid var(--light-color);
     border-radius: 12px;
     background-color: var(--bg-color);
 }
@@ -62,15 +63,14 @@ iframe {
     max-width: 100%;
 }
 
-#button-img {
+.page-img {
     width: 700px;
     max-width: 100%;
-    margin-top: 20px;
     margin-bottom: 20px;
 }
 
-#sully-img {
-    margin-bottom: 20px;
+#button-img {
+    margin-top: 20px;
 }
 
 .round-corners {
@@ -81,7 +81,7 @@ input[type=text] {
     font-family: 'Atkinson Hyperlegible', sans-serif;
     font-size: 100%;
     padding: 10px;
-    border: 0px solid --light-color;
+    border: 0px solid var(--light-color);
     border-radius: 12px;
     background-color: var(--light-color);
     color: var(--font-color);
@@ -90,4 +90,31 @@ input[type=text] {
 a {
     color: var(--font-link-color);
     text-decoration: none;
+}
+
+@media (orientation: portrait) {
+    body {
+        font-size: 250%
+    }
+
+    .title {
+        flex-wrap: wrap;
+        height: 200px;
+    }
+
+    #title-text {
+        font-size: 150%;
+    }
+
+    .the-rest {
+        margin-top: 100px;
+    }
+
+    .page-img {
+        width: 100%;
+    }
+
+    #jazz {
+        width: 100%;
+    }
 }
