@@ -1,8 +1,8 @@
 body {
-    --light-color: #404547;
-    --bg-color: #303537;
-    --dark-color: #202527;
-    --font-color: #d0d5d7;
+    --light-color: #40454b;
+    --bg-color: #30353b;
+    --dark-color: #20252b;
+    --font-color: #e0e5eb;
     --font-link-color: #aaf;
     --corner-radius: 12px;
     font-family: 'Atkinson Hyperlegible', sans-serif;
@@ -111,6 +111,12 @@ a {
 
     #title-text {
         font-size: 150%;
+    }
+
+    .right-link {
+        margin-top: 15px;
+        margin-right: 0;
+        margin-left: 40px;
     }
 
     .the-rest {
