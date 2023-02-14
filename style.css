@@ -60,6 +60,10 @@ body {
     padding: 40px;
 }
 
+#water-text {
+    margin-top: 0;
+}
+
 iframe {
     width: 700px;
     max-width: 100%;
@@ -121,6 +125,10 @@ a {
 
     .the-rest {
         margin-top: 100px;
+    }
+
+    #water-text {
+        margin-top: 1em;
     }
 
     iframe {
