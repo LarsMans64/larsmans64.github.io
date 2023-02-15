@@ -1,10 +1,11 @@
 body {
-    --light-color: #40454b;
-    --bg-color: #30353b;
-    --dark-color: #20252b;
-    --font-color: #e0e5eb;
-    --font-link-color: #aaf;
+    --light-color: hsl(213, 8%, 27%);
+    --bg-color: hsl(213, 10%, 21%);
+    --dark-color: hsl(213, 15%, 15%);
+    --font-color: hsl(213, 22%, 90%);
+    --font-link-color: hsl(240, 100%, 83%);
     --corner-radius: 12px;
+
     font-family: 'Atkinson Hyperlegible', sans-serif;
     font-size: 150%;
     color: var(--font-color);
@@ -15,7 +16,7 @@ body {
 #header {
     border: 0;
     width: 100vw;
-    
+    scrollbar-width: none;
 }
 
 .title {
@@ -40,6 +41,7 @@ body {
     border: 36px solid var(--bg-color);
     background-color: var(--bg-color);
     border-radius: 100%;
+    aspect-ratio: 1 / 1;
 }
 
 #title-text {
