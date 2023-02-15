@@ -12,6 +12,12 @@ body {
     background-color: var(--bg-color);
 }
 
+#header {
+    border: 0;
+    width: 100vw;
+    
+}
+
 .title {
     background-color: var(--dark-color);
     padding: 20px 0;
@@ -64,24 +70,19 @@ body {
     margin-top: 0;
 }
 
-iframe {
-    width: 700px;
-    max-width: 100%;
+.square {
     aspect-ratio: 1 / 1;
 }
 
-.page-img {
+img, iframe {
     width: 700px;
     max-width: 100%;
     margin-bottom: 20px;
+    border-radius: var(--corner-radius);
 }
 
 #button-img {
     margin-top: 20px;
-}
-
-.round-corners {
-    border-radius: var(--corner-radius);
 }
 
 #form-label {
@@ -131,11 +132,7 @@ a {
         margin-top: 1em;
     }
 
-    iframe {
-        width: 100%;
-    }
-
-    .page-img {
+    img, iframe {
         width: 100%;
     }
 
