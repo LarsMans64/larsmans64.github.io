@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+
 body {
     --light-color: hsl(213, 8%, 27%);
     --bg-color: hsl(213, 10%, 21%);
