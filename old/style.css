@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+
+body {
+    --light-color: hsl(213, 8%, 27%);
+    --bg-color: hsl(213, 10%, 21%);
+    --dark-color: hsl(213, 15%, 15%);
+    --font-color: hsl(213, 22%, 90%);
+    --font-link-color: hsl(240, 100%, 83%);
+    --corner-radius: 12px;
+
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 150%;
+    color: var(--font-color);
+    margin: 0;
+    background-color: var(--bg-color);
+}
+
+#header {
+    border: 0;
+    width: 100%;
+    scrollbar-width: none;
+}
+
+.title {
+    background-color: var(--dark-color);
+    padding: 20px 0;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#left {
+    height: inherit;
+    display: flex;
+    align-items: center;
+}
+
+#title-img {
+    height: inherit;
+    margin-right: 33px;
+    margin-left: 33px;
+    border: 36px solid var(--bg-color);
+    background-color: var(--bg-color);
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+#title-text {
+    text-align: center;
+    margin: 0;
+}
+
+#right {
+    height: inherit;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.right-link {
+    padding: 15px;
+    margin-right: 33px;
+    border: 5px solid var(--light-color);
+    border-radius: var(--corner-radius);
+    background-color: var(--bg-color);
+}
+
+.the-rest {
+    padding: 40px;
+}
+
+#water-text {
+    margin-top: 0;
+}
+
+.square {
+    aspect-ratio: 1 / 1;
+}
+
+.page-img {
+    width: 700px;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-radius: var(--corner-radius);
+}
+
+#button-img {
+    margin-top: 20px;
+}
+
+#form-label {
+    display: inline;
+}
+
+input[type=text] {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 100%;
+    padding: 10px;
+    border: 0px solid var(--light-color);
+    border-radius: var(--corner-radius);
+    background-color: var(--light-color);
+    color: var(--font-color);
+}
+
+a {
+    color: var(--font-link-color);
+    text-decoration: none;
+}
+
+@media (orientation: portrait) {
+    body {
+        font-size: 250%
+    }
+
+    .title {
+        flex-wrap: wrap;
+        height: 200px;
+    }
+
+    #title-text {
+        font-size: 150%;
+    }
+
+    .right-link {
+        margin-top: 15px;
+        margin-right: 0;
+        margin-left: 40px;
+    }
+
+    .the-rest {
+        margin-top: 100px;
+    }
+
+    #water-text {
+        margin-top: 1em;
+    }
+
+    img, iframe {
+        width: 100%;
+    }
+
+    #jazz {
+        width: 100%;
+    }
+}

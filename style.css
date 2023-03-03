@@ -1,146 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
-
 body {
-    --light-color: hsl(213, 8%, 27%);
-    --bg-color: hsl(213, 10%, 21%);
-    --dark-color: hsl(213, 15%, 15%);
-    --font-color: hsl(213, 22%, 90%);
-    --font-link-color: hsl(240, 100%, 83%);
-    --corner-radius: 12px;
-
-    font-family: 'Atkinson Hyperlegible', sans-serif;
-    font-size: 150%;
-    color: var(--font-color);
+    --color-200: hsl(0, 0%, 10%);
+    --color-600: hsl(183, 20%, 80%);
+    --color-700: hsl(183, 42%, 95%);
     margin: 0;
-    background-color: var(--bg-color);
-}
-
-#header {
-    border: 0;
-    width: 100%;
-    scrollbar-width: none;
-}
-
-.title {
-    background-color: var(--dark-color);
-    padding: 20px 0;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#left {
-    height: inherit;
-    display: flex;
-    align-items: center;
-}
-
-#title-img {
-    height: inherit;
-    margin-right: 33px;
-    margin-left: 33px;
-    border: 36px solid var(--bg-color);
-    background-color: var(--bg-color);
-    border-radius: 100%;
-    aspect-ratio: 1 / 1;
-}
-
-#title-text {
-    text-align: center;
-    margin: 0;
-}
-
-#right {
-    height: inherit;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-}
-
-.right-link {
-    padding: 15px;
-    margin-right: 33px;
-    border: 5px solid var(--light-color);
-    border-radius: var(--corner-radius);
-    background-color: var(--bg-color);
-}
-
-.the-rest {
-    padding: 40px;
-}
-
-#water-text {
-    margin-top: 0;
-}
-
-.square {
-    aspect-ratio: 1 / 1;
-}
-
-img, iframe {
-    width: 700px;
-    max-width: 100%;
-    margin-bottom: 20px;
-    border-radius: var(--corner-radius);
-}
-
-#button-img {
-    margin-top: 20px;
-}
-
-#form-label {
-    display: inline;
-}
-
-input[type=text] {
+    font-size: 2rem;
     font-family: 'Atkinson Hyperlegible', sans-serif;
-    font-size: 100%;
-    padding: 10px;
-    border: 0px solid var(--light-color);
-    border-radius: var(--corner-radius);
-    background-color: var(--light-color);
-    color: var(--font-color);
+    color: var(--color-700);
+    background-color: var(--color-200);
 }
 
-a {
-    color: var(--font-link-color);
-    text-decoration: none;
+h1 {
+    font-size: 4rem;
 }
 
-@media (orientation: portrait) {
-    body {
-        font-size: 250%
-    }
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-    .title {
-        flex-wrap: wrap;
-        height: 200px;
-    }
+#top {
+    padding: 2rem;
+    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(36,36,128,1) 35%, rgba(14,146,173,1) 100%);
+    min-height: 80vh;
+}
 
-    #title-text {
-        font-size: 150%;
-    }
-
-    .right-link {
-        margin-top: 15px;
-        margin-right: 0;
-        margin-left: 40px;
-    }
-
-    .the-rest {
-        margin-top: 100px;
-    }
-
-    #water-text {
-        margin-top: 1em;
-    }
-
-    img, iframe {
-        width: 100%;
-    }
-
-    #jazz {
-        width: 100%;
-    }
+#top-middle {
+    padding: 5rem;
+    background-color: var(--color-200);
+    border-radius: 1.5rem;
 }

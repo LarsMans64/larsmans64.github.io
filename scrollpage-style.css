@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+
+body {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 400%;
+    color: #fff;
+    margin: 0;
+}
+
+.scroll-container, .scroll-section {
+    height: 100vh;
+}
+
+.scroll-container {
+    scroll-snap-type: y mandatory;
+}
+
+.scroll-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+}
+
+.scroll-container div:nth-child(1) {
+    background-color: #1cb155;
+}
+
+.scroll-container div:nth-child(2) {
+    background-color: #caca0d;
+}
+
+.scroll-container div:nth-child(3) {
+    background-color: #c93e22;
+}
+
+.scroll-container div:nth-child(4) {
+    background-color: #26a9c6;
+}
+
+.scroll-container div:nth-child(5) {
+    background-color: #d5952e;
+}
+
+.scroll-container div:nth-child(6) {
+    background-color: #2e1b54;
+}
