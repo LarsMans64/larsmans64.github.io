@@ -1,14 +1,19 @@
 body {
+    --color-100: hsl(0, 0%, 5%);
     --color-200: hsl(0, 0%, 10%);
+    --color-250: hsl(0, 0%, 15%);
     --color-300: hsl(0, 0%, 20%);
     --color-600: hsl(183, 20%, 80%);
     --color-700: hsl(183, 42%, 95%);
+    --color-blue: rgb(31, 0, 155);
+    --color-red: rgb(173,14,95);
     --border-radius: 1.5rem;
+    --gradient: linear-gradient(10deg, var(--color-red), var(--color-blue));
     margin: 0;
     font-size: 1.5rem;
     font-family: 'Atkinson Hyperlegible', sans-serif;
     color: var(--color-700);
-    background-color: var(--color-200);
+    background: var(--color-200);
 }
 
 h1 {
@@ -29,12 +34,6 @@ h1, h2, p {
     margin: 0;
 }
 
-img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: var(--border-radius);
-}
-
 a {
     text-decoration: inherit;
     color: inherit;
@@ -49,7 +48,8 @@ a {
 }
 
 #top {
-    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(36,36,128,1) 35%, rgba(14,146,173,1) 100%);
+    background: var(--gradient);
+    background-attachment: fixed;
     min-height: 100vh;
 }
 
@@ -57,43 +57,63 @@ a {
     margin: 1.5rem;
     padding: min(10%, 5rem);
     gap: 2rem;
-    background-color: var(--color-200);
+    background: linear-gradient(var(--color-250), var(--color-200));
     border-radius: var(--border-radius);
 }
 
 #projects {
-    padding: 3rem;
-    gap: 3rem;
+    padding: min(5vw, 5rem);
+    gap: min(5vw, 5rem);
 }
 
 #projects-middle {
     display: grid;
-    gap: 3rem;
+    gap: min(5vw, 5rem);
     grid-template-columns: 1fr 1fr;
 }
 
 @media (max-width: 800px) {
     #projects-middle {
         grid-template-columns: 1fr;
-        gap: 2rem;
     }
 }
 
-.project {
+.border {
+    display: grid;
+    padding: 0.3rem;
+    border-radius: var(--border-radius);
+    background-attachment: fixed;
+    background-position: center;
+    background-image: var(--gradient);
+}
+
+.project, .project-top {
     padding: 3rem;
+    background: var(--color-200);
     display: grid;
     gap: 2rem;
-    border: 5px solid var(--color-300);
-    border-radius: var(--border-radius);
 }
 
 .span-2 {
     grid-column: span 2;
 }
 
+.project {
+    border-radius: 1.3rem;
+}
+
+.project-top {
+    border-radius: 1.3rem 1.3rem 0 0;
+}
+
+.project-bottom {
+    width: 100%;
+    border-radius: 0 0 1.3rem 1.3rem;
+    background-color: var(--color-200);
+}
+
 @media (max-width: 800px) {
     .span-2 {
         grid-column: auto;
     }
-
 }
