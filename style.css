@@ -1,9 +1,11 @@
 body {
     --color-200: hsl(0, 0%, 10%);
+    --color-300: hsl(0, 0%, 20%);
     --color-600: hsl(183, 20%, 80%);
     --color-700: hsl(183, 42%, 95%);
+    --border-radius: 1.5rem;
     margin: 0;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: 'Atkinson Hyperlegible', sans-serif;
     color: var(--color-700);
     background-color: var(--color-200);
@@ -13,21 +15,67 @@ h1 {
     font-size: 4rem;
 }
 
+@media (max-width: 500px) {
+    body {
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+}
+
+h1, h2, p {
+    margin: 0;
+}
+
 .center {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 #top {
-    padding: 2rem;
     background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(36,36,128,1) 35%, rgba(14,146,173,1) 100%);
-    min-height: 80vh;
+    min-height: 100vh;
 }
 
 #top-middle {
-    padding: 5rem;
+    margin: 1.5rem;
+    padding: min(10%, 5rem);
+    gap: 2rem;
     background-color: var(--color-200);
-    border-radius: 1.5rem;
+    border-radius: var(--border-radius);
+}
+
+#projects {
+    padding: 3rem;
+    gap: 3rem;
+}
+
+#projects-middle {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 800px) {
+    #projects-middle {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.project {
+    padding: 3rem;
+    display: grid;
+    gap: 2rem;
+    border: 5px solid var(--color-300);
+    border-radius: var(--border-radius);
+}
+
+.span-2 {
+    grid-column: span 2;
 }
