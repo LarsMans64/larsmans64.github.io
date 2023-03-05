@@ -104,7 +104,7 @@ a {
     background: var(--color-200);
     display: grid;
     gap: 2rem;
-    transition: all 200ms linear;
+    transition: all 200ms;
 }
 
 .span-2 {
@@ -125,8 +125,9 @@ a {
 }
 
 .project:hover, .project-top:hover {
-    transition: all 200ms linear;
+    transition: all 200ms;
     background-color: var(--gradient);
+    transform: scale(1.04);
 }
 
 @media (max-width: 800px) {
