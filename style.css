@@ -101,7 +101,7 @@ a {
     background: var(--color-200);
     display: grid;
     gap: 2rem;
-    transition: all 200ms;
+    transition: all 200ms ease-in-out;
 }
 
 .span-2 {
