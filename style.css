@@ -125,7 +125,6 @@ a {
 }
 
 .project:hover, .project-top:hover {
-    transition: all 200ms;
     background-color: var(--gradient);
     transform: scale(1.04);
 }
