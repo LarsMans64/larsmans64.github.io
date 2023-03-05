@@ -88,7 +88,7 @@ a {
 }
 
 .project, .project-top {
-    padding: 3rem;
+    padding: min(3rem, 10vw);
     background: var(--color-200);
     display: grid;
     gap: 2rem;
