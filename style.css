@@ -91,6 +91,7 @@ a {
 
 .border {
     display: grid;
+    cursor: pointer;
     padding: 0.3rem;
     border-radius: var(--border-radius);
     background-attachment: fixed;
@@ -103,6 +104,7 @@ a {
     background: var(--color-200);
     display: grid;
     gap: 2rem;
+    transition: all 200ms linear;
 }
 
 .span-2 {
@@ -120,6 +122,11 @@ a {
 .project-bottom {
     width: 100%;
     border-radius: 0 0 1.3rem 1.3rem;
+}
+
+.project:hover, .project-top:hover {
+    transition: all 200ms linear;
+    background-color: var(--gradient);
 }
 
 @media (max-width: 800px) {
