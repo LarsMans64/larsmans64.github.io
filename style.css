@@ -1,9 +1,6 @@
 body {
-    --color-100: hsl(0, 0%, 5%);
     --color-200: hsl(0, 0%, 10%);
     --color-250: hsl(0, 0%, 15%);
-    --color-300: hsl(0, 0%, 20%);
-    --color-600: hsl(183, 20%, 80%);
     --color-700: hsl(183, 42%, 95%);
     --color-blue: rgb(31, 0, 155);
     --color-red: rgb(173,14,95);
