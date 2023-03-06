@@ -1,16 +1,19 @@
 body {
+    --color-100: hsl(0, 0%, 5%);
     --color-200: hsl(0, 0%, 10%);
-    --color-250: hsl(0, 0%, 15%);
+    --color-300: hsl(0, 0%, 15%);
     --color-700: hsl(183, 42%, 95%);
-    --color-blue: rgb(31, 0, 155);
+    --color-blue: rgb(31, 0, 153);
     --color-red: rgb(173,14,95);
     --border-radius: 1.5rem;
-    --gradient: linear-gradient(10deg, var(--color-red), var(--color-blue));
+    --gradient-col: linear-gradient(10deg, var(--color-red), var(--color-blue));
+    --gradient-gray: linear-gradient(var(--color-300), var(--color-200));
+
     margin: 0;
     font-size: 1.5rem;
     font-family: 'Atkinson Hyperlegible', sans-serif;
     color: var(--color-700);
-    background: var(--gradient);
+    background: var(--gradient-col);
     background-attachment: fixed;
 }
 
@@ -46,7 +49,7 @@ a {
 }
 
 #top {
-    background: var(--gradient);
+    background: var(--gradient-col);
     background-attachment: fixed;
     min-height: 100vh;
 }
@@ -55,7 +58,7 @@ a {
     margin: 1.5rem;
     padding: min(10%, 5rem);
     gap: 2rem;
-    background: linear-gradient(var(--color-250), var(--color-200));
+    background: var(--gradient-gray);
     border-radius: var(--border-radius);
 }
 
@@ -93,7 +96,7 @@ a {
     border-radius: var(--border-radius);
     background-attachment: fixed;
     background-position: center;
-    background-image: var(--gradient);
+    background-image: var(--gradient-col);
 }
 
 .project, .project-top {
@@ -122,7 +125,7 @@ a {
 }
 
 .project:hover, .project-top:hover {
-    background-color: var(--gradient);
+    background-color: var(--gradient-col);
     transform: scale(1.04);
 }
 
