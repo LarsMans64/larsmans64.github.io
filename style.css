@@ -124,7 +124,9 @@ a {
     border-radius: 0 0 1.3rem 1.3rem;
 }
 
-.project:hover, .project-top:hover {
+ .project:hover, 
+ .project-top:hover, 
+ .border:hover > .project-top {
     background-color: var(--gradient-col);
     transform: scale(1.04);
 }
