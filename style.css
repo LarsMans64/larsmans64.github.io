@@ -1,18 +1,26 @@
-body {
-    --color-100: hsl(0, 0%, 5%);
-    --color-200: hsl(0, 0%, 10%);
-    --color-300: hsl(0, 0%, 15%);
-    --color-700: hsl(183, 42%, 95%);
-    --color-blue: rgb(31, 0, 153);
-    --color-red: rgb(173,14,95);
-    --border-radius: 1.5rem;
-    --gradient-col: linear-gradient(10deg, var(--color-red), var(--color-blue));
-    --gradient-gray: linear-gradient(var(--color-300), var(--color-200));
+:root {
+    --col-bg: rgb(20, 14, 30);
+    --col-bg-light: rgb(38, 25, 60);
+    --col-light: rgb(237, 247, 248);
 
+    --color-blue: rgb(31, 0, 153);
+    --color-pink: rgb(173,14,95);
+    --color-green: rgb(17, 111, 51);
+    --color-green-light: rgb(135, 244, 204);
+    --color-red-dark: rgb(44, 7, 34);
+    --color-red: rgb(247, 66, 66);
+
+    --gradient-col: linear-gradient(10deg, var(--color-one), var(--color-two));
+    --gradient-gray: linear-gradient(var(--col-bg-light), var(--col-bg));
+    
+    --border-radius: 1.5rem;
+}
+
+body {
     margin: 0;
     font-size: 1.5rem;
     font-family: 'Atkinson Hyperlegible', sans-serif;
-    color: var(--color-700);
+    color: var(--col-light);
     background: var(--gradient-col);
     background-attachment: fixed;
 }
@@ -51,7 +59,67 @@ a {
 #top {
     background: var(--gradient-col);
     background-attachment: fixed;
-    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+#color-options {
+    all: unset;
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    inset: 3rem auto auto auto;
+    width: fit-content;
+    background-color: rgba(255, 255, 255, 0.298);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+}
+
+#color-options > input[type="radio"] {
+    appearance: none;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    width: min(3rem, 20vw);
+    background: var(--option-col);
+    outline: 0px solid var(--col-light);
+    border-radius: 30%;
+    cursor: pointer;
+    transition: all 0.075s ease-in-out;
+}
+
+#color-options > input[type="radio"]:checked {
+    outline: 4px solid rgba(255, 255, 255, 0.678);
+    outline-offset: 3px;
+}
+
+#pinkblue {
+    --option-col: linear-gradient(10deg, var(--color-pink), var(--color-blue));
+}
+
+#green {
+    --option-col: linear-gradient(10deg, var(--color-green), var(--color-green-light));
+}
+
+#red {
+    --option-col: linear-gradient(10deg, var(--color-red-dark), var(--color-red));
+}
+
+:root:has(#pinkblue:checked) {
+    --color-one: var(--color-pink);
+    --color-two: var(--color-blue);
+}
+
+:root:has(#green:checked) {
+    --color-one: var(--color-green);
+    --color-two: var(--color-green-light);
+    --col-bg: #1c382b;
+    --col-bg-light: #1d6b48;
+}
+
+:root:has(#red:checked) {
+    --color-one: var(--color-red-dark);
+    --color-two: var(--color-red);
+    --col-bg: #380b19;
+    --col-bg-light: #7d1637;
 }
 
 #top-middle {
@@ -66,12 +134,12 @@ a {
     align-self: flex-end;
     min-height: 20vh;
     width: 100%;
-    background: var(--color-200);
+    background: var(--col-bg);
     border-radius: 100% 100% 0 0;
 }
 
 #projects {
-    background: var(--color-200);
+    background: var(--col-bg);
     padding: min(5vw, 5rem);
     padding-top: 0;
     gap: min(5vw, 5rem);
@@ -101,7 +169,7 @@ a {
 
 .project, .project-top {
     padding: min(3rem, 10vw);
-    background: var(--color-200);
+    background: var(--col-bg);
     display: grid;
     gap: 2rem;
     transition: all 200ms ease-in-out;
