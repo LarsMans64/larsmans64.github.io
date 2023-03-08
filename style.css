@@ -3,17 +3,21 @@
     --col-bg-light: rgb(38, 25, 60);
     --col-light: rgb(237, 247, 248);
 
-    --color-blue: rgb(31, 0, 153);
-    --color-pink: rgb(173,14,95);
-    --color-green: rgb(17, 111, 51);
-    --color-green-light: rgb(135, 244, 204);
-    --color-red-dark: rgb(44, 7, 34);
-    --color-red: rgb(247, 66, 66);
+    --col-darkblue: rgb(31, 0, 153);
+    --col-pink: rgb(173,14,95);
+    --col-green: rgb(17, 111, 51);
+    --col-lightgreen: rgb(135, 244, 204);
+    --col-darkred: rgb(44, 7, 34);
+    --col-red: rgb(247, 66, 66);
+    --col-orange: rgb(176, 36, 23);
+    --col-yellow: rgb(244, 217, 80);
+    --col-lightblue: rgb(86, 254, 229);
 
     --gradient-col: linear-gradient(10deg, var(--color-one), var(--color-two));
     --gradient-gray: linear-gradient(var(--col-bg-light), var(--col-bg));
     
     --border-radius: 1.5rem;
+    --colors-inset: 3rem auto auto auto;
 }
 
 body {
@@ -61,14 +65,31 @@ a {
     min-height: 100vh;
 }
 
-#color-options {
-    all: unset;
-    display: flex;
-    gap: 1rem;
+#top-top {
+    --bg-col: rgba(255, 255, 255, 0.298);
+
     position: absolute;
     inset: 3rem auto auto auto;
+    transition: all 500ms cubic-bezier(.7,-0.67,.37,1.59);
+}
+
+#top-top:has(#collapse-button:checked) {
+    inset: -5rem auto auto auto;
+}
+
+#collapse-button {
+    margin: 0 auto unset auto;
+    background-color: var(--bg-col);
+    border: 0;
+    border-radius: 0 0 1rem 1rem;
+    aspect-ratio: 1 / 1;
+}
+
+#color-options {
+    display: flex;
+    gap: 1rem;
     width: fit-content;
-    background-color: rgba(255, 255, 255, 0.298);
+    background-color: var(--bg-col);
     padding: 1rem;
     border-radius: var(--border-radius);
 }
@@ -91,34 +112,56 @@ a {
 }
 
 #pinkblue {
-    --option-col: linear-gradient(10deg, var(--color-pink), var(--color-blue));
+    --option-col: linear-gradient(10deg, var(--col-pink), var(--col-darkblue));
 }
 
 #green {
-    --option-col: linear-gradient(10deg, var(--color-green), var(--color-green-light));
+    --option-col: linear-gradient(10deg, var(--col-green), var(--col-lightgreen));
 }
 
 #red {
-    --option-col: linear-gradient(10deg, var(--color-red-dark), var(--color-red));
+    --option-col: linear-gradient(10deg, var(--col-darkred), var(--col-red));
+}
+
+#yellow {
+    --option-col: linear-gradient(10deg, var(--col-orange), var(--col-yellow));
+}
+
+#blue {
+    --option-col: linear-gradient(10deg, var(--col-darkblue), var(--col-lightblue));
 }
 
 :root:has(#pinkblue:checked) {
-    --color-one: var(--color-pink);
-    --color-two: var(--color-blue);
+    --color-one: var(--col-pink);
+    --color-two: var(--col-darkblue);
 }
 
 :root:has(#green:checked) {
-    --color-one: var(--color-green);
-    --color-two: var(--color-green-light);
+    --color-one: var(--col-green);
+    --color-two: var(--col-lightgreen);
     --col-bg: #1c382b;
     --col-bg-light: #1d6b48;
 }
 
 :root:has(#red:checked) {
-    --color-one: var(--color-red-dark);
-    --color-two: var(--color-red);
+    --color-one: var(--col-darkred);
+    --color-two: var(--col-red);
     --col-bg: #380b19;
     --col-bg-light: #7d1637;
+}
+
+:root:has(#yellow:checked) {
+    --color-one: var(--col-orange);
+    --color-two: var(--col-yellow);
+    --col-bg: #421f12;
+    --col-bg-light: #5f2915;
+}
+
+:root:has(#blue:checked) {
+    --color-one: var(--col-darkblue);
+    --color-two: var(--col-lightblue);
+    --col-bg: #0c172f;
+    --col-bg-light: #0f2657;
 }
 
 #top-middle {
@@ -127,6 +170,7 @@ a {
     gap: 2rem;
     background: var(--gradient-gray);
     border-radius: var(--border-radius);
+    cursor: default;
 }
 
 #top-transition {
