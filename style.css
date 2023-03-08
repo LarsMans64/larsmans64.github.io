@@ -23,7 +23,7 @@ body {
     color: var(--col-light);
     background: var(--gradient-col);
     background-attachment: fixed;
-    height: 100dvh;
+    height: 100vh;
 }
 
 h1 {
@@ -58,7 +58,7 @@ a {
 }
 
 #top {
-    min-height: 100dvh;
+    min-height: 100vh;
 }
 
 #color-options {
