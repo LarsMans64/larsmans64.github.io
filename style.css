@@ -3,6 +3,9 @@
     --col-bg-light: rgb(38, 25, 60);
     --col-light: rgb(237, 247, 248);
 
+    --col-trans1: rgba(255, 255, 255, 0.298);
+    --col-trans2: rgba(255, 255, 255, 0.678);
+
     --col-darkblue: rgb(31, 0, 153);
     --col-pink: rgb(173,14,95);
     --col-green: rgb(17, 111, 51);
@@ -66,15 +69,24 @@ a {
 }
 
 #top-top {
-    --bg-col: rgba(255, 255, 255, 0.298);
+    --bg-col: var(--col-trans1);
 
     position: absolute;
     inset: 3rem auto auto auto;
-    transition: all 500ms cubic-bezier(.7,-0.67,.37,1.59);
+    transition: inset 500ms cubic-bezier(.7,-0.67,.37,1.59);
 }
 
-#top-top:has(#collapse-button:checked) {
+body.themes-hidden #top-top {
     inset: -5rem auto auto auto;
+}
+
+#arrow {
+    fill: var(--col-trans2);
+    transition: transform 500ms;
+}
+
+body.themes-hidden #arrow {
+    transform: rotate(180deg);
 }
 
 #collapse-button {
@@ -83,6 +95,7 @@ a {
     border: 0;
     border-radius: 0 0 1rem 1rem;
     aspect-ratio: 1 / 1;
+    cursor: pointer;
 }
 
 #color-options {
@@ -103,7 +116,7 @@ a {
     outline: 0px solid var(--col-light);
     border-radius: 30%;
     cursor: pointer;
-    transition: all 0.075s ease-in-out;
+    transition: outline 0.075s ease-in-out;
 }
 
 #color-options > input[type="radio"]:checked {

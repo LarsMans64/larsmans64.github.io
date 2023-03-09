@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,13 +6,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet">
-
+    
     <title>LarsMans Website</title>
     <link rel="icon" href="assets/yosh round.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="themes-hidden">
     <div id="top" class="center">
         <div id="top-top">
             <form action="" id="color-options">
@@ -24,7 +23,7 @@
                 <input type="radio" name="theme" id="blue">
             </form>
             <button id="collapse-button" type="checkbox">
-                <svg height="48" width="48">
+                <svg id="arrow" height="48" width="48">
                     <path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/>
                 </svg>
             </input>
@@ -81,5 +80,9 @@
             </a>
         </div>
     </div>
+
+    <script src="themes.js"></script>
+    <script src="themebutton.js"></script>
+
 </body>
 </html>
