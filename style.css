@@ -8,8 +8,9 @@
 
     --col-darkblue: rgb(31, 0, 153);
     --col-pink: rgb(173,14,95);
-    --col-green: rgb(17, 111, 51);
-    --col-lightgreen: rgb(135, 244, 204);
+    --col-sky1: #efffff;
+    --col-sky2: #2793ff;
+    --col-sky3: #412b66;
     --col-darkred: rgb(44, 7, 34);
     --col-red: rgb(247, 66, 66);
     --col-orange: rgb(176, 36, 23);
@@ -129,7 +130,7 @@ body.themes-hidden #arrow {
 }
 
 #green {
-    --option-col: linear-gradient(10deg, var(--col-green), var(--col-lightgreen));
+    --option-col: linear-gradient(10deg, var(--col-sky1), var(--col-sky2) 45%, var(--col-sky3) 90%);
 }
 
 #red {
@@ -150,10 +151,9 @@ body.themes-hidden #arrow {
 }
 
 :root:has(#green:checked) {
-    --color-one: var(--col-green);
-    --color-two: var(--col-lightgreen);
-    --col-bg: #1c382b;
-    --col-bg-light: #1d6b48;
+    --gradient-col: linear-gradient(10deg, var(--col-sky1), var(--col-sky2) 45%, var(--col-sky3));
+    --col-bg: #063a60;
+    --col-bg-light: rgb(15, 90, 131);
 }
 
 :root:has(#red:checked) {
