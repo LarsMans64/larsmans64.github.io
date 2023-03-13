@@ -22,6 +22,8 @@
     
     --border-radius: 1.5rem;
     --colors-inset: 3rem auto auto auto;
+
+    color-scheme: dark;
 }
 
 body {
