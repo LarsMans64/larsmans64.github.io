@@ -225,6 +225,10 @@ body.themes-hidden #arrow {
     background-image: var(--gradient-col);
 }
 
+#top-transition::after {
+    filter: blur(2.5rem);
+}
+
 .project, .project-top {
     padding: min(3rem, 10vw);
     background: var(--col-bg);
