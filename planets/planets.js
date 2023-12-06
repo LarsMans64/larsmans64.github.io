@@ -82,7 +82,7 @@ class Planet {
                 forces.push(direction.multiply(forceLength / distance)) // big smort
                 if (distance < this.radius + planet.radius) {
                     bounce = true
-                    bounceNormal = new Vector(direction.x, direction.y).normalise()
+                    bounceNormal = new Vector(direction.x, direction.y).normalise().add(bounceNormal).normalise()
                 }
             }
         }
