@@ -7,9 +7,10 @@
  * 
  */
 
-const gravitation = 1
+const gravitation = 0.05
 let planets = []
 let time = new Date().getTime()
+const debug = false
 
 let area = {
     canvas : document.createElement("canvas"),
@@ -31,10 +32,16 @@ let area = {
 
 function init() {
     area.start()
-    planets.push(new Planet(1000, 500, 40, 0, 0, "#50d070"))
-    planets.push(new Planet(1500, 600, 20, 0, 0.1, "#50d070"))
-    planets.push(new Planet(500, 200, 30, 0.1, -0.06, "#50d070"))
-    planets.push(new Planet(200, 700, 20, 0, 0.1, "#50d070"))
+    planets = [
+        new Planet(1000, 500, 40, 0, 0, "#50d070"),
+        new Planet(1500, 600, 20, 0, 0.1, "#50d070"),
+        new Planet(500, 200, 30, 0.1, -0.06, "#50d070"),
+        new Planet(200, 700, 20, 0, 0.1, "#50d070")
+    ]
+    // planets = [
+    //     new Planet(800, 500, 60, -0.1, 0, "#50d070"),
+    //     new Planet(500, 550, 60, 0.1, 0, "#50d070")
+    // ]
 }
 
 function update() {
@@ -48,6 +55,9 @@ function update() {
     for (let planet of planets) {
         planet.update(old_planets)
         planet.draw()
+        if (debug) {
+            planet.drawVelocity()
+        }
     }
 }
 
@@ -62,6 +72,7 @@ class Planet {
 
     update(planets) {
         let bounce = false
+        let bounceNormal = new Vector(0, 0)
         let forces = []
         for (let planet of planets) {
             if (planet != this) {
@@ -71,6 +82,7 @@ class Planet {
                 forces.push(direction.multiply(forceLength / distance)) // big smort
                 if (distance < this.radius + planet.radius) {
                     bounce = true
+                    bounceNormal = new Vector(direction.x, direction.y).normalise()
                 }
             }
         }
@@ -79,10 +91,10 @@ class Planet {
             resultForce = resultForce.add(force)
         }
 
-        this.acceleration = resultForce.multiply(0.002 / this.mass())
+        this.acceleration = resultForce.multiply(gravitation / this.mass())
         this.velocity = this.velocity.add(this.acceleration.multiply(dt))
         if (bounce) {
-            this.velocity = this.velocity.multiply(-1)
+            this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))).multiply(0.99)
         }
         this.pos = this.pos.add(this.velocity.multiply(dt))
         console.log(this.pos)
@@ -95,8 +107,18 @@ class Planet {
         ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI, false)
         ctx.closePath()
         ctx.fill()
+        // ctx.lineWidth = 5
+        // ctx.strokeStyle = this.color
+        // ctx.stroke()
+    }
+
+    drawVelocity() {
+        let ctx = area.context
+        ctx.beginPath()
+        ctx.moveTo(this.pos.x, this.pos.y)
+        ctx.lineTo(this.pos.x + this.velocity.x * 1000, this.pos.y + this.velocity.y * 1000)
         ctx.lineWidth = 5
-        ctx.strokeStyle = this.color
+        ctx.strokeStyle = "#f1f1f1"
         ctx.stroke()
     }
 
@@ -128,7 +150,24 @@ class Vector {
     }
 
     normalise() {
-        let length = vec.length()
+        let length = this.length()
         return new Vector(this.x / length, this.y / length)
+    }
+
+    setAngle(angle) {
+        length = this.length()
+        return new Vector(Math.cos(angle) * length, Math.sin(angle) * length)
+    }
+
+    getAngle() {
+        return Math.atan(this.y / this.x)
+    }
+
+    rotate(angle) {
+        return new this.setAngle(this.getAngle + angle)
+    }
+
+    dot(vec) {
+        return this.x * vec.x + this.y * vec.y
     }
 }
