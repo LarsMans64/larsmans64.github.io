@@ -97,7 +97,6 @@ class Planet {
             this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))).multiply(0.99)
         }
         this.pos = this.pos.add(this.velocity.multiply(dt))
-        console.log(this.pos)
     }
 
     draw() {
