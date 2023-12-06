@@ -1,3 +1,12 @@
+/* TODO:
+ * - scrollbar gon
+ * - move with mouse
+ * - create planets
+ * - fix collisions
+ * - manipulate time / gravity
+ * 
+ */
+
 const gravitation = 1
 let planets = []
 let time = new Date().getTime()
