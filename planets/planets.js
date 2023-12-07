@@ -57,7 +57,30 @@ document.addEventListener('keyup', function(event) {
             camera.down = false
             break
     }
-});
+})
+
+document.addEventListener('wheel', function(event) {
+    if (event.deltaY > 0) {
+        camera.targetZoom *= camera.zoomStep
+    } else {
+        camera.targetZoom /= camera.zoomStep
+    }
+})
+
+// document.addEventListener('mousedown', function(event) {
+//     camera.mouseDown = true
+//     camera.mousePos = new Vector(event.clientX, event.clientY)
+// })
+
+// document.addEventListener('mouseup', function(event) {
+//     camera.mouseDown = false
+// })
+
+document.addEventListener('mousemove', function(event) {
+    if (event.buttons == 1) {
+        camera.pos = camera.pos.subtract(new Vector(event.movementX, event.movementY))
+    }
+})
 
 function init() {
     area.start()
@@ -68,8 +91,8 @@ function init() {
         new Planet(200, 700, 20, 0, 0.1, "#50d070")
     ]
     // planets = [
-    //     new Planet(800, 500, 60, -0.1, 0, "#50d070"),
-    //     new Planet(500, 550, 60, 0.1, 0, "#50d070")
+    //     new Planet(800, 500, 30, 0, 0.1, "#50d070"),
+    //     new Planet(500, 550, 60, 0, 0, "#50d070")
     // ]
 }
 
@@ -83,7 +106,7 @@ function update() {
 
     camera.update()
 
-    let old_planets = [...planets]
+    let old_planets = Array.from(planets)
     for (let planet of planets) {
         planet.update(old_planets)
         planet.draw()
@@ -115,6 +138,7 @@ class Planet {
                 if (distance < this.radius + planet.radius) {
                     bounce = true
                     bounceNormal = new Vector(direction.x, direction.y).normalise().add(bounceNormal).normalise()
+                    this.pos = this.pos.subtract(direction.normalise().multiply(0.5 * (this.radius + planet.radius - distance)))
                 }
             }
         }
@@ -132,12 +156,12 @@ class Planet {
     }
 
     draw() {
-        // let camPos = camera.toWorldCoords(this.pos)
-        let camPos = this.pos.subtract(camera.pos) 
+        let camPos = camera.toWorldCoords(this.pos)
+        // let camPos = this.pos.subtract(camera.pos) 
         let ctx = area.context
         ctx.fillStyle = this.color
         ctx.beginPath()
-        ctx.arc(camPos.x, camPos.y, this.radius, 0, 2 * Math.PI, false)
+        ctx.arc(camPos.x, camPos.y, this.radius * camera.zoom, 0, 2 * Math.PI, false)
         ctx.closePath()
         ctx.fill()
         // ctx.lineWidth = 5
@@ -171,6 +195,10 @@ class Camera {
         this.left = false
         this.right = false
         this.zoom = 1
+        this.zoomStep = 0.9
+        this.targetZoom = 1
+        this.mouseDown = false
+        this.mousePos = new Vector(0, 0)
     }
 
     update() {
@@ -185,7 +213,7 @@ class Camera {
         this.velocity = this.velocity.add(this.acceleration.multiply(dt))
         this.pos = this.pos.add(this.velocity.multiply(dt))
 
-        this.zoom *= 0.999
+        this.zoom += (this.targetZoom - this.zoom) * 0.1
     }
 
     accelerate(x, y) {
@@ -197,7 +225,7 @@ class Camera {
     }
 
     toWorldCoords(vec) {
-        return vec.multiply(this.zoom).add(this.middle())
+        return vec.multiply(this.zoom).subtract(this.pos)
     }
 }
 
