@@ -1,34 +1,63 @@
 /* TODO:
  * - scrollbar gon
- * - move with mouse
+ * - move with mouse/keyboard
  * - create planets
  * - fix collisions
  * - manipulate time / gravity
  * 
  */
 
-const gravitation = 0.05
-let planets = []
-let time = new Date().getTime()
-const debug = false
-
 let area = {
-    canvas : document.createElement("canvas"),
-    start : function() {
+    canvas: document.createElement("canvas"),
+    start: function() {
         this.canvas.width = 800
         this.canvas.height = 800
         this.context = this.canvas.getContext("2d")
         document.body.insertBefore(this.canvas, document.body.childNodes[0])
         this.interval = setInterval(update, 1/60)
     },
-    clear : function() {
+    clear: function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     },
-    size : function() {
-        this.canvas.width = window.innerWidth * 3
-        this.canvas.height = window.innerHeight * 3
+    size: function() {
+        this.canvas.width = window.innerWidth
+        this.canvas.height = window.innerHeight
     }
 }
+
+document.addEventListener('keydown', function(event) {
+    switch (event.key) {
+        case "ArrowLeft":
+            camera.left = true
+            break
+        case "ArrowRight":
+            camera.right = true
+            break
+        case "ArrowUp":
+            camera.up = true
+            break
+        case "ArrowDown":
+            camera.down = true
+            break
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    switch (event.key) {
+        case "ArrowLeft":
+            camera.left = false
+            break
+        case "ArrowRight":
+            camera.right = false
+            break
+        case "ArrowUp":
+            camera.up = false
+            break
+        case "ArrowDown":
+            camera.down = false
+            break
+    }
+});
 
 function init() {
     area.start()
@@ -51,6 +80,9 @@ function update() {
 
     area.clear()
     area.size()
+
+    camera.update()
+
     let old_planets = [...planets]
     for (let planet of planets) {
         planet.update(old_planets)
@@ -100,10 +132,12 @@ class Planet {
     }
 
     draw() {
+        // let camPos = camera.toWorldCoords(this.pos)
+        let camPos = this.pos.subtract(camera.pos) 
         let ctx = area.context
         ctx.fillStyle = this.color
         ctx.beginPath()
-        ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI, false)
+        ctx.arc(camPos.x, camPos.y, this.radius, 0, 2 * Math.PI, false)
         ctx.closePath()
         ctx.fill()
         // ctx.lineWidth = 5
@@ -126,47 +160,50 @@ class Planet {
     }
 }
 
-class Vector {
+class Camera {
     constructor(x, y) {
-        this.x = x
-        this.y = y
+        this.pos = new Vector(x, y)
+        this.velocity = new Vector(0, 0)
+        this.acceleration = new Vector(0, 0)
+        this.speed = 0.02
+        this.up = false
+        this.down = false
+        this.left = false
+        this.right = false
+        this.zoom = 1
     }
 
-    add(vec) {
-        return new Vector(this.x + vec.x, this.y + vec.y)
+    update() {
+        this.acceleration = new Vector(0, 0)
+
+        if (this.left) this.accelerate(-1, 0)
+        if (this.right) this.accelerate(1, 0)
+        if (this.up) this.accelerate(0, -1)
+        if (this.down) this.accelerate(0, 1)
+
+        this.velocity = this.velocity.multiply(0.993 ** dt)
+        this.velocity = this.velocity.add(this.acceleration.multiply(dt))
+        this.pos = this.pos.add(this.velocity.multiply(dt))
+
+        this.zoom *= 0.999
     }
 
-    subtract(vec2) {
-        return new Vector(this.x - vec2.x, this.y - vec2.y)
+    accelerate(x, y) {
+        this.acceleration = this.acceleration.add(new Vector(x * this.speed, y * this.speed))
     }
 
-    multiply(number) {
-        return new Vector(this.x * number, this.y * number)
+    middle() {
+        return this.pos.add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
     }
 
-    length() {
-        return Math.sqrt(this.x * this.x + this.y * this.y)
-    }
-
-    normalise() {
-        let length = this.length()
-        return new Vector(this.x / length, this.y / length)
-    }
-
-    setAngle(angle) {
-        length = this.length()
-        return new Vector(Math.cos(angle) * length, Math.sin(angle) * length)
-    }
-
-    getAngle() {
-        return Math.atan(this.y / this.x)
-    }
-
-    rotate(angle) {
-        return new this.setAngle(this.getAngle + angle)
-    }
-
-    dot(vec) {
-        return this.x * vec.x + this.y * vec.y
+    toWorldCoords(vec) {
+        return vec.multiply(this.zoom).add(this.middle())
     }
 }
+
+const gravitation = 0.05
+const debug = false
+
+let planets = []
+let time = new Date().getTime()
+let camera = new Camera(0, 0)
