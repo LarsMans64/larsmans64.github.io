@@ -39,6 +39,6 @@ class Camera {
     }
 
     toWorldCoords(vec) {
-        return vec.multiply(this.zoom).subtract(this.pos)
+        return vec.subtract(this.middle()).multiply(this.zoom).add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
     }
 }

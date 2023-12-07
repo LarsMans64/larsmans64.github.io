@@ -25,14 +25,15 @@ let area = {
     }
 }
 
-const gravitation = 0.05
+const gravitation = 0.09
 const debug = false
 
 let planets = [
     new Planet(1000, 500, 40, 0, 0, "#50d070"),
     new Planet(1500, 600, 20, 0, 0.1, "#50d070"),
     new Planet(500, 200, 30, 0.1, -0.06, "#50d070"),
-    new Planet(200, 700, 20, 0, 0.1, "#50d070")
+    new Planet(200, 700, 20, 0, 0.1, "#50d070"),
+    new Planet(1700, 100, 20, 0, 0, "#50d070"),
 ]
 // let planets = [
 //     new Planet(800, 500, 30, 0, 0.1, "#50d070"),
@@ -115,6 +116,6 @@ document.addEventListener('wheel', function(event) {
 
 document.addEventListener('mousemove', function(event) {
     if (event.buttons == 1) {
-        camera.pos = camera.pos.subtract(new Vector(event.movementX, event.movementY))
+        camera.pos = camera.pos.subtract(new Vector(event.movementX, event.movementY).multiply(1/camera.zoom))
     }
 })
