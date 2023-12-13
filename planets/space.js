@@ -25,8 +25,8 @@ let area = {
     }
 }
 
-const gravitation = 0.09
-const debug = false
+let gravitation = 0.05
+let debug = false
 
 let planets = [
     new Planet(1000, 500, 40, 0, 0, "#50d070"),
@@ -36,8 +36,8 @@ let planets = [
     new Planet(1700, 100, 20, 0, 0, "#50d070"),
 ]
 // let planets = [
-//     new Planet(800, 500, 30, 0, 0.1, "#50d070"),
-//     new Planet(500, 550, 60, 0, 0, "#50d070")
+//     new Planet(1500, 500, 30, 0, 0, "#50d070"),
+//     new Planet(500, 500, 60, 0, 0, "#50d070")
 // ]
 let time = new Date().getTime()
 let camera = new Camera(0, 0)
@@ -85,6 +85,9 @@ document.addEventListener('keydown', function(event) {
             break
         case "ArrowDown":
             camera.down = true
+            break
+        case "d":
+            debug = !debug
             break
     }
 })
