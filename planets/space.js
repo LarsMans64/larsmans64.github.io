@@ -66,9 +66,19 @@ function update() {
 
     for (let planet of planets) {
         planet.draw()
-        if (debug) {
+        if (debug == 1) {
             planet.drawVelocity()
         }
+        if (debug == 2) {
+            planet.drawAcceleration()
+        }
+    }
+}
+
+function cycleDebug() {
+    debug += 1
+    if (debug > 2) {
+        debug = 0
     }
 }
 
@@ -87,7 +97,7 @@ document.addEventListener('keydown', function(event) {
             camera.down = true
             break
         case "d":
-            debug = !debug
+            cycleDebug()
             break
     }
 })

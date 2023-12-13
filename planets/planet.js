@@ -64,7 +64,18 @@ class Planet {
         ctx.beginPath()
         ctx.moveTo(camPos.x, camPos.y)
         ctx.lineTo(camPos.x + this.velocity.x * 1000 * camera.zoom, camPos.y + this.velocity.y * 1000 * camera.zoom)
-        ctx.lineWidth = 5 * camera.zoom
+        ctx.lineWidth = 4 * camera.zoom
+        ctx.strokeStyle = "#f1f1f1"
+        ctx.stroke()
+    }
+
+    drawAcceleration() {
+        let camPos = camera.toWorldCoords(this.pos)
+        let ctx = area.context
+        ctx.beginPath()
+        ctx.moveTo(camPos.x, camPos.y)
+        ctx.lineTo(camPos.x + this.acceleration.x * 300000 * camera.zoom, camPos.y + this.acceleration.y * 300000 * camera.zoom)
+        ctx.lineWidth = 4 * camera.zoom
         ctx.strokeStyle = "#f1f1f1"
         ctx.stroke()
     }
