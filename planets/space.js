@@ -1,8 +1,5 @@
 /* TODO:
- * - scrollbar gon
- * - move with mouse/keyboard
  * - create planets
- * - fix collisions
  * - manipulate time / gravity
  * 
  */
