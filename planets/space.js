@@ -1,7 +1,7 @@
 /* TODO:
  * - create planets
  * - manipulate time / gravity
- * 
+ * - 
  */
 
 let area = {
