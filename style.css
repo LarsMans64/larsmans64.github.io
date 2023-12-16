@@ -190,7 +190,7 @@ body.themes-hidden #arrow {
 
 #top-transition {
     align-self: flex-end;
-    min-height: 20vh;
+    min-height: 30vh;
     width: 100%;
     background: var(--col-bg);
     border-radius: 100% 100% 0 0;
