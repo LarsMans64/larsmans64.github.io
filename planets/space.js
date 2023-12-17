@@ -144,7 +144,7 @@ document.addEventListener('contextmenu', function(event) {
     coords = camera.toWorldCoords(new Vector(event.clientX, event.clientY))
     if (newPlanet == null) {
         newPlanet = new NewPlanet(coords)
-    } else {
+    } else if (newPlanet.radius > 0) {
         planets.push(new Planet(newPlanet.pos.x, newPlanet.pos.y, newPlanet.radius, 0, 0, "#50d070"))
         newPlanet = null
     }
