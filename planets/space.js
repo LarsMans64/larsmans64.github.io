@@ -39,6 +39,7 @@ let planets = [
 // ]
 let time = new Date().getTime()
 let camera = new Camera(0, 0)
+let newPlanet = null
 
 function init() {
     area.start()
@@ -70,6 +71,10 @@ function update() {
         if (debug == 2) {
             planet.drawAcceleration()
         }
+    }
+
+    if (newPlanet != null) {
+        newPlanet.draw()
     }
 }
 
@@ -129,4 +134,19 @@ document.addEventListener('mousemove', function(event) {
     if (event.buttons == 1) {
         camera.pos = camera.pos.subtract(new Vector(event.movementX, event.movementY).multiply(1/camera.zoom))
     }
+    if (newPlanet != null) {
+        newPlanet.radius = newPlanet.pos.subtract(camera.toWorldCoords(new Vector(event.clientX, event.clientY))).length()
+    }
 })
+
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault()
+    coords = camera.toWorldCoords(new Vector(event.clientX, event.clientY))
+    if (newPlanet == null) {
+        newPlanet = new NewPlanet(coords)
+    } else {
+        planets.push(new Planet(newPlanet.pos.x, newPlanet.pos.y, newPlanet.radius, 0, 0, "#50d070"))
+        newPlanet = null
+    }
+    return false
+}, false)

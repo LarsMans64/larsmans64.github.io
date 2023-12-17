@@ -27,7 +27,6 @@ class Planet {
                     bounceNormal = new Vector(direction.x, direction.y).normalise().add(bounceNormal).normalise()
                     nudge = nudge.subtract(direction.normalise().multiply((combinedRadius - distance) * otherMass / (thisMass + otherMass) * 1.01))
                 }
-                console.log(distance)
             }
         }
 
@@ -42,6 +41,7 @@ class Planet {
             this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))).multiply(0.97)
         }
         this.targetPos = this.pos.add(nudge).add(this.velocity.multiply(dt))
+        console.log(this.pos)
     }
 
     applyPos() {
@@ -49,7 +49,7 @@ class Planet {
     }
 
     draw() {
-        let camPos = camera.toWorldCoords(this.pos)
+        let camPos = camera.toScreenCoords(this.pos)
         let ctx = area.context
         ctx.fillStyle = this.color
         ctx.beginPath()
@@ -59,7 +59,7 @@ class Planet {
     }
 
     drawVelocity() {
-        let camPos = camera.toWorldCoords(this.pos)
+        let camPos = camera.toScreenCoords(this.pos)
         let ctx = area.context
         ctx.beginPath()
         ctx.moveTo(camPos.x, camPos.y)
@@ -70,7 +70,7 @@ class Planet {
     }
 
     drawAcceleration() {
-        let camPos = camera.toWorldCoords(this.pos)
+        let camPos = camera.toScreenCoords(this.pos)
         let ctx = area.context
         ctx.beginPath()
         ctx.moveTo(camPos.x, camPos.y)

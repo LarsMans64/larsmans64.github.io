@@ -11,8 +11,6 @@ class Camera {
         this.zoom = 1
         this.zoomStep = 0.9
         this.targetZoom = 1
-        this.mouseDown = false
-        this.mousePos = new Vector(0, 0)
     }
 
     update() {
@@ -38,7 +36,11 @@ class Camera {
         return this.pos.add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
     }
 
-    toWorldCoords(vec) {
-        return vec.subtract(this.middle()).multiply(this.zoom).add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
+    toScreenCoords(vector) {
+        return vector.subtract(this.middle()).multiply(this.zoom).add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
+    }
+
+    toWorldCoords(vector) {
+        return vector.subtract(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5)).multiply(1/this.zoom).add(this.middle())
     }
 }
