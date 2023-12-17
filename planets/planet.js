@@ -41,7 +41,6 @@ class Planet {
             this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))).multiply(0.97)
         }
         this.targetPos = this.pos.add(nudge).add(this.velocity.multiply(dt))
-        console.log(this.pos)
     }
 
     applyPos() {
