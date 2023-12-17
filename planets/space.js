@@ -48,6 +48,9 @@ function init() {
 function update() {
     let now = new Date().getTime()
     dt = now - time
+    if (dt > 50) {
+        dt = 50
+    }
     time = now;
 
     area.clear()
