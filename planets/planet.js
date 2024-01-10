@@ -6,26 +6,29 @@ class Planet {
         this.velocity = new Vector(xVelocity, yVelocity)
         this.acceleration = new Vector(0, 0)
         this.color = color
+        this.mass = Math.PI * radius * radius
     }
 
     update(other_planets) {
         let bounce = false
+        let bounceMass = 0
+        let bounceSpeed = 0
         let bounceNormal = new Vector(0, 0)
         let forces = []
         let nudge = new Vector(0, 0)
         for (let planet of other_planets) {
             if (planet != this) {
-                let otherMass = planet.mass()
-                let thisMass = this.mass()
                 let direction = planet.pos.subtract(this.pos)
                 let distance = direction.length()
-                let forceLength = gravitation * thisMass * otherMass / (distance * distance)
+                let forceLength = gravitation * this.mass * planet.mass / (distance * distance)
                 forces.push(direction.multiply(forceLength / distance)) // big smort
                 let combinedRadius = this.radius + planet.radius
                 if (distance < combinedRadius) {
                     bounce = true
+                    bounceMass = planet.mass
+                    bounceSpeed = planet.velocity.length()
                     bounceNormal = new Vector(direction.x, direction.y).normalise().add(bounceNormal).normalise()
-                    nudge = nudge.subtract(direction.normalise().multiply((combinedRadius - distance) * otherMass / (thisMass + otherMass) * 1.01))
+                    nudge = nudge.subtract(direction.normalise().multiply((combinedRadius - distance) * planet.mass / (this.mass + planet.mass) * 1.01))
                 }
             }
         }
@@ -35,10 +38,12 @@ class Planet {
             resultForce = resultForce.add(force)
         }
 
-        this.acceleration = resultForce.multiply(gravitation / this.mass())
+        this.acceleration = resultForce.multiply(gravitation / this.mass)
         this.velocity = this.velocity.add(this.acceleration.multiply(dt))
         if (bounce) {
-            this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))).multiply(0.97)
+            this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal)))
+            // this.velocity = this.velocity.normalise().multiply((this.mass * this.velocity.length() + bounceMass * bounceSpeed) / (this.mass + bounceMass))
+            //.multiply(0.97)
         }
         this.targetPos = this.pos.add(nudge).add(this.velocity.multiply(dt))
     }
@@ -56,30 +61,36 @@ class Planet {
         ctx.closePath()
         ctx.fill()
     }
-
-    drawVelocity() {
+    
+    drawLineFromCenter(vector, length) {
         let camPos = camera.toScreenCoords(this.pos)
         let ctx = area.context
+
+        let drawVector = vector.multiply(length * camera.zoom)
+
         ctx.beginPath()
         ctx.moveTo(camPos.x, camPos.y)
-        ctx.lineTo(camPos.x + this.velocity.x * 1000 * camera.zoom, camPos.y + this.velocity.y * 1000 * camera.zoom)
-        ctx.lineWidth = 4 * camera.zoom
+        ctx.lineTo(camPos.x + drawVector.x, camPos.y + drawVector.y)
+        ctx.lineWidth = Math.min(0.2 * camera.zoom * this.radius, 4)
         ctx.strokeStyle = "#f1f1f1"
         ctx.stroke()
+    }
+
+    drawText(string) {
+        let ctx = area.context
+        let screenPos = camera.toScreenCoords(this.pos)
+        ctx.textAlign = "center"
+        ctx.fillStyle = "#f1f1f1"
+        ctx.fillText(string, screenPos.x, screenPos.y - this.radius * camera.zoom - 5)
+    }
+
+    drawVelocity() {
+        this.drawLineFromCenter(this.velocity, 1000)
+        this.drawText(roundSignificantDigits(this.velocity.multiply(10).length(), 4).toString())
     }
 
     drawAcceleration() {
-        let camPos = camera.toScreenCoords(this.pos)
-        let ctx = area.context
-        ctx.beginPath()
-        ctx.moveTo(camPos.x, camPos.y)
-        ctx.lineTo(camPos.x + this.acceleration.x * 300000 * camera.zoom, camPos.y + this.acceleration.y * 300000 * camera.zoom)
-        ctx.lineWidth = 4 * camera.zoom
-        ctx.strokeStyle = "#f1f1f1"
-        ctx.stroke()
-    }
-
-    mass() {
-        return Math.PI * this.radius * this.radius
+        this.drawLineFromCenter(this.acceleration, 300_000)
+        this.drawText(roundSignificantDigits(this.acceleration.multiply(300_000).length(), 4).toString())
     }
 }

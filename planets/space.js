@@ -22,9 +22,6 @@ let area = {
     }
 }
 
-let gravitation = 0.05
-let debug = false
-
 let planets = [
     new Planet(1000, 500, 40, 0, 0, "#50d070"),
     new Planet(1500, 600, 20, 0, 0.1, "#50d070"),
@@ -37,9 +34,15 @@ let planets = [
 //     new Planet(1500, 500, 30, 0, 0, "#50d070"),
 //     new Planet(500, 500, 60, 0, 0, "#50d070")
 // ]
+
+let gravitation = 0.05
+let debug = 0
 let time = new Date().getTime()
+let dt = 0
 let camera = new Camera(0, 0)
+let paused = false
 let newPlanet = null
+let textLine = 0
 
 function init() {
     area.start()
@@ -55,6 +58,8 @@ function update() {
 
     area.clear()
     area.size()
+    
+    area.context.font = "20px Atkinson Hyperlegible"
 
     camera.update()
 
@@ -76,9 +81,15 @@ function update() {
         }
     }
 
+    drawText("D = cycle debug")
+    drawText("R = remove all planets")
+    drawText("SPACE = pause")
+    
     if (newPlanet != null) {
         newPlanet.draw()
     }
+
+    textLine = 0
 }
 
 function cycleDebug() {
@@ -86,6 +97,25 @@ function cycleDebug() {
     if (debug > 2) {
         debug = 0
     }
+}
+
+function drawText(text) {
+    let ctx = area.context
+    ctx.fillStyle = "#ffffff44"
+    ctx.textAlign = "start"
+    ctx.textBaseline = "hanging"
+    ctx.fillText(text, 20, 20 + textLine * 20)
+    textLine += 1
+}
+
+function roundSignificantDigits(number, digits) {
+    let floor = Math.floor(number)
+    let afterDot = digits - floor.toString().length
+    if (afterDot > 0) {
+        let e = 10 ** afterDot
+        return Math.round(number * e) / e
+    }
+    return floor
 }
 
 document.addEventListener('keydown', function(event) {
@@ -104,6 +134,12 @@ document.addEventListener('keydown', function(event) {
             break
         case "d":
             cycleDebug()
+            break
+        case "r":
+            planets = []
+            break
+        case "space":
+            paused = !paused
             break
     }
 })
