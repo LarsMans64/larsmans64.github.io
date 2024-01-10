@@ -63,12 +63,14 @@ function update() {
 
     camera.update()
 
-    for (let planet of planets) {
-        planet.update(planets)
-    }
+    if (!paused) {
+        for (let planet of planets) {
+            planet.update(planets)
+        }
 
-    for (let planet of planets) {
-        planet.applyPos()
+        for (let planet of planets) {
+            planet.applyPos()
+        }
     }
 
     for (let planet of planets) {
@@ -138,7 +140,7 @@ document.addEventListener('keydown', function(event) {
         case "r":
             planets = []
             break
-        case "space":
+        case " ":
             paused = !paused
             break
     }
