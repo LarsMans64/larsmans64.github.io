@@ -43,6 +43,7 @@ let camera = new Camera(0, 0)
 let paused = false
 let newPlanet = null
 let textLine = 0
+let selectedPlanet = null
 
 function init() {
     area.start()
@@ -73,6 +74,10 @@ function update() {
         }
     }
 
+    if (selectedPlanet != null) {
+        camera.setMiddle(selectedPlanet.pos)
+    }
+
     for (let planet of planets) {
         planet.draw()
         if (debug == 1) {
@@ -83,6 +88,10 @@ function update() {
         }
     }
 
+    drawText("Left Click to pan")
+    drawText("Right Click to create a new planet")
+    drawText("Scroll to zoom")
+    drawText("")
     drawText("D = cycle debug")
     drawText("R = remove all planets")
     drawText("SPACE = pause")
@@ -160,6 +169,18 @@ document.addEventListener('keyup', function(event) {
         case "ArrowDown":
             camera.down = false
             break
+    }
+})
+
+document.addEventListener('mousedown', function(event) {
+    if (event.movementX == 0 && event.movementY == 0 && event.buttons == 1) {
+        selectedPlanet = null
+        for (let planet of planets) {
+            let mouseCoords = camera.toWorldCoords(new Vector(event.clientX, event.clientY))
+            if (planet.pos.subtract(mouseCoords).length() <= planet.radius) {
+                selectedPlanet = planet
+            }
+        }
     }
 })
 

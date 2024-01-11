@@ -36,6 +36,10 @@ class Camera {
         return this.pos.add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
     }
 
+    setMiddle(pos) {
+        this.pos = pos.subtract(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
+    }
+
     toScreenCoords(vector) {
         return vector.subtract(this.middle()).multiply(this.zoom).add(new Vector(window.innerWidth * 0.5, window.innerHeight * 0.5))
     }
