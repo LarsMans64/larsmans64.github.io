@@ -1,26 +1,8 @@
 /* TODO:
- * - create planets
- * - manipulate time / gravity
- * - 
+ * - make new planets move with the selected one
  */
 
-let area = {
-    canvas: document.createElement("canvas"),
-    start: function() {
-        this.canvas.width = 800
-        this.canvas.height = 800
-        this.context = this.canvas.getContext("2d")
-        document.body.insertBefore(this.canvas, document.body.childNodes[0])
-        this.interval = setInterval(update)
-    },
-    clear: function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    },
-    size: function() {
-        this.canvas.width = window.innerWidth
-        this.canvas.height = window.innerHeight
-    }
-}
+let area = new Area()
 
 let planets = [
     new Planet(1000, 500, 40, 0, 0, "#50d070"),
@@ -88,13 +70,13 @@ function update() {
         }
     }
 
-    drawText("Left Click to pan")
-    drawText("Right Click to create a new planet")
+    drawText("Left click to pan")
+    drawText("Right click to create a new planet")
     drawText("Scroll to zoom")
     drawText("")
-    drawText("D = cycle debug")
-    drawText("R = remove all planets")
-    drawText("SPACE = pause")
+    drawText("D = Cycle debug")
+    drawText("R = Remove all planets")
+    drawText("SPACE = Pause")
     
     if (newPlanet != null) {
         newPlanet.draw()

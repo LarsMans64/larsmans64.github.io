@@ -27,7 +27,7 @@ class Planet {
                     bounce = true
                     bounceMass = planet.mass
                     bounceSpeed = planet.velocity.length()
-                    bounceNormal = new Vector(direction.x, direction.y).normalise().add(bounceNormal).normalise()
+                    bounceNormal = new Vector(direction.x, direction.y).normalise()
                     nudge = nudge.subtract(direction.normalise().multiply((combinedRadius - distance) * planet.mass / (this.mass + planet.mass) * 1.01))
                 }
             }
@@ -41,9 +41,10 @@ class Planet {
         this.acceleration = resultForce.multiply(gravitation / this.mass)
         this.velocity = this.velocity.add(this.acceleration.multiply(dt))
         if (bounce) {
-            this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal)))
-            // this.velocity = this.velocity.normalise().multiply((this.mass * this.velocity.length() + bounceMass * bounceSpeed) / (this.mass + bounceMass))
-            //.multiply(0.97)
+            let speed = this.velocity.length()
+            this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))) // change direction
+                // .normalise().multiply(((this.mass - bounceMass) * speed + 2 * this.mass * -bounceSpeed) / (this.mass + bounceMass)) // change velocities
+                //.multiply(0.97)
         }
         this.targetPos = this.pos.add(nudge).add(this.velocity.multiply(dt))
     }
