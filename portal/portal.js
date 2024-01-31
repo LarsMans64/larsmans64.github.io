@@ -17,7 +17,7 @@ class Portal {
         ctx.save()
         ctx.fillStyle = this.color
         ctx.beginPath()
-        ctx.translate(camPos.x, camPos.y + 5)
+        ctx.translate(camPos.x, camPos.y)
         ctx.rotate(this.rotation)
         ctx.roundRect(this.width * -0.5, this.height * -0.5, this.width, this.height, 1000)
         ctx.fill()
