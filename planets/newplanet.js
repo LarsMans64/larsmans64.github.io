@@ -7,7 +7,7 @@ class NewPlanet {
     }
 
     draw() {
-        this.drawRadius += (this.radius - this.drawRadius) * 0.3
+        this.drawRadius += (this.radius - this.drawRadius) * 0.1
         let camPos = camera.toScreenCoords(this.pos)
         let ctx = area.context
         ctx.fillStyle = this.color
