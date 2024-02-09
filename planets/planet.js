@@ -87,11 +87,11 @@ class Planet {
 
     drawVelocity() {
         this.drawLineFromCenter(this.velocity, 1000)
-        this.drawText(roundSignificantDigits(this.velocity.multiply(10).length(), 4).toString())
+        this.drawText(roundToSignificantDigits(this.velocity.multiply(10).length(), 4).toString())
     }
 
     drawAcceleration() {
         this.drawLineFromCenter(this.acceleration, 300_000)
-        this.drawText(roundSignificantDigits(this.acceleration.multiply(300_000).length(), 4).toString())
+        this.drawText(roundToSignificantDigits(this.acceleration.multiply(300_000).length(), 4).toString())
     }
 }

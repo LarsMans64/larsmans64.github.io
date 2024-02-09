@@ -17,6 +17,8 @@ let planets = [
 //     new Planet(500, 500, 60, 0, 0, "#50d070")
 // ]
 
+let removedPlanets = []
+
 let gravitation = 0.05
 let debug = 0
 let time = new Date().getTime()
@@ -101,7 +103,7 @@ function drawText(text) {
     textLine += 1
 }
 
-function roundSignificantDigits(number, digits) {
+function roundToSignificantDigits(number, digits) {
     let floor = Math.floor(number)
     let afterDot = digits - floor.toString().length
     if (afterDot > 0) {
@@ -109,6 +111,18 @@ function roundSignificantDigits(number, digits) {
         return Math.round(number * e) / e
     }
     return floor
+}
+
+function removeLatestPlanet() {
+    if (planets.length > 0) {
+        removedPlanets.push(planets.pop())
+    }
+}
+
+function restoreLatestPlanet() {
+    if (removedPlanets.length > 0) {
+        planets.push(removedPlanets.pop())
+    }
 }
 
 document.addEventListener('keydown', function(event) {
@@ -133,6 +147,16 @@ document.addEventListener('keydown', function(event) {
             break
         case " ":
             paused = !paused
+            break
+        case "z":
+            if (event.ctrlKey) {
+                removeLatestPlanet()
+            }
+            break
+        case "y":
+            if (event.ctrlKey) {
+                restoreLatestPlanet()
+            }
             break
     }
 })
