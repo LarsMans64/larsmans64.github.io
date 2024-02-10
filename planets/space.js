@@ -1,5 +1,13 @@
-/* TODO:
- * - make new planets move with the selected one
+/* 
+ * TODO:
+ * - grid
+ * - give new planet velocity
+ * - selection highlight
+ * - selection info / change planet variables (pos, speed, acceleration, energy, color)
+ * - menu with info / constants (gravity, simulation speed, total energy, ...)
+ * - change lines to arrows
+ * - more planet colors, randomization
+ * 
  */
 
 let area = new Area()
@@ -28,6 +36,7 @@ let paused = false
 let newPlanet = null
 let textLine = 0
 let selectedPlanet = null
+let inputs = []
 
 function init() {
     area.start()
@@ -60,6 +69,14 @@ function update() {
 
     if (selectedPlanet != null) {
         camera.setMiddle(selectedPlanet.pos)
+        if (inputs.length == 0) {
+            inputs.push(new PlanetsInput({
+                x: window.innerWidth - 200,
+                y: 50,
+                placeHolder: "Color",
+                onsubmit: function() {selectedPlanet.color = this.value()}
+            }))
+        }
     }
 
     for (let planet of planets) {
@@ -82,6 +99,10 @@ function update() {
     
     if (newPlanet != null) {
         newPlanet.draw()
+    }
+
+    for (let input of inputs) {
+        input.render()
     }
 
     textLine = 0
@@ -180,7 +201,9 @@ document.addEventListener('keyup', function(event) {
 
 document.addEventListener('mousedown', function(event) {
     if (event.movementX == 0 && event.movementY == 0 && event.buttons == 1) {
-        selectedPlanet = null
+        if (event.clientX < window.innerWidth - 200) {
+            selectedPlanet = null
+        }
         for (let planet of planets) {
             let mouseCoords = camera.toWorldCoords(new Vector(event.clientX, event.clientY))
             if (planet.pos.subtract(mouseCoords).length() <= planet.radius) {
