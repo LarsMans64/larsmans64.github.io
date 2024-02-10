@@ -5,7 +5,7 @@
 let area = new Area()
 
 let planets = [
-    new Planet(1000, 500, 40, 0, 0, "#50d070"),
+    new Planet(1000, 500, 70, 0, 0, "#50d070"),
     new Planet(1500, 600, 20, 0, 0.1, "#50d070"),
     new Planet(500, 200, 30, 0.1, -0.06, "#50d070"),
     new Planet(200, 700, 20, 0, 0.1, "#50d070"),
@@ -13,8 +13,8 @@ let planets = [
     new Planet(10, 100, 7, 0, 0.2, "#50d070"),
 ]
 // let planets = [
-//     new Planet(1500, 500, 30, 0, 0, "#50d070"),
-//     new Planet(500, 500, 60, 0, 0, "#50d070")
+//     new Planet(1500, 500, 50, 0, 0, "#50d070"),
+//     new Planet(500, 500, 50, 0, 0, "#50d070")
 // ]
 
 let removedPlanets = []
