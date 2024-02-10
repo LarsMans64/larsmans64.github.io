@@ -4,6 +4,7 @@ class Planet {
         this.targetPos = new Vector(x, y)
         this.radius = radius
         this.velocity = new Vector(xVelocity, yVelocity)
+        this.targetVelocity = new Vector(xVelocity, yVelocity)
         this.acceleration = new Vector(0, 0)
         this.color = color
         this.mass = Math.PI * radius * radius
@@ -12,7 +13,7 @@ class Planet {
     update(other_planets) {
         let bounce = false
         let bounceMass = 0
-        let bounceSpeed = 0
+        let bounceVelocity = new Vector(0, 0)
         let bounceNormal = new Vector(0, 0)
         let forces = []
         let nudge = new Vector(0, 0)
@@ -26,9 +27,9 @@ class Planet {
                 if (distance < combinedRadius) {
                     bounce = true
                     bounceMass = planet.mass
-                    bounceSpeed = planet.velocity.length()
+                    bounceVelocity = planet.velocity
                     bounceNormal = new Vector(direction.x, direction.y).normalise()
-                    nudge = nudge.subtract(direction.normalise().multiply((combinedRadius - distance) * planet.mass / (this.mass + planet.mass) * 1.01))
+                    nudge = nudge.subtract(direction.normalise().multiply((combinedRadius - distance) * planet.mass / (this.mass + planet.mass) * 1.001))
                 }
             }
         }
@@ -39,18 +40,24 @@ class Planet {
         }
 
         this.acceleration = resultForce.multiply(gravitation / this.mass)
-        this.velocity = this.velocity.add(this.acceleration.multiply(dt))
+        this.targetVelocity = this.velocity.add(this.acceleration.multiply(dt))
+
         if (bounce) {
-            let speed = this.velocity.length()
-            this.velocity = this.velocity.subtract(bounceNormal.multiply(2 * this.velocity.dot(bounceNormal))) // change direction
-                // .normalise().multiply(((this.mass - bounceMass) * speed + 2 * this.mass * -bounceSpeed) / (this.mass + bounceMass)) // change velocities
-                //.multiply(0.97)
+            let bounceTangent = new Vector(-bounceNormal.y, bounceNormal.x)
+            let normalVelocity = bounceNormal.dot(this.targetVelocity)
+            let tangentVelocity = bounceTangent.dot(this.targetVelocity)
+            let normalBounceVelocity = bounceNormal.dot(bounceVelocity)
+
+            let newNormalVelocity = (normalVelocity * (this.mass - bounceMass) + 2 * bounceMass * normalBounceVelocity) / (this.mass + bounceMass)
+            this.targetVelocity = bounceNormal.multiply(newNormalVelocity).add(bounceTangent.multiply(tangentVelocity)).multiply(0.99)
         }
-        this.targetPos = this.pos.add(nudge).add(this.velocity.multiply(dt))
+
+        this.targetPos = this.pos.add(nudge).add(this.targetVelocity.multiply(dt))
     }
 
     applyPos() {
         this.pos = this.targetPos
+        this.velocity = this.targetVelocity
     }
 
     draw() {
