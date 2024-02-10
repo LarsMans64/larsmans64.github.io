@@ -69,14 +69,14 @@ function update() {
 
     if (selectedPlanet != null) {
         camera.setMiddle(selectedPlanet.pos)
-        if (inputs.length == 0) {
-            inputs.push(new PlanetsInput({
-                x: window.innerWidth - 200,
-                y: 50,
-                placeHolder: "Color",
-                onsubmit: function() {selectedPlanet.color = this.value()}
-            }))
-        }
+        // if (inputs.length == 0) {
+        //     inputs.push(new PlanetsInput({
+        //         x: window.innerWidth - 200,
+        //         y: 50,
+        //         placeHolder: "Color",
+        //         onsubmit: function() {selectedPlanet.color = this.value()}
+        //     }))
+        // }
     }
 
     for (let planet of planets) {
@@ -201,9 +201,9 @@ document.addEventListener('keyup', function(event) {
 
 document.addEventListener('mousedown', function(event) {
     if (event.movementX == 0 && event.movementY == 0 && event.buttons == 1) {
-        if (event.clientX < window.innerWidth - 200) {
+        // if (event.clientX < window.innerWidth - 200) {
             selectedPlanet = null
-        }
+        // }
         for (let planet of planets) {
             let mouseCoords = camera.toWorldCoords(new Vector(event.clientX, event.clientY))
             if (planet.pos.subtract(mouseCoords).length() <= planet.radius) {
