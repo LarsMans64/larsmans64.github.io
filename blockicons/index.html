@@ -5,10 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
-        currentPath = ""
+        paths = [""]
+
+        function previousFolder() {
+            let last = paths[paths.length - 2]
+            paths.pop()
+            paths.pop()
+            fetch(last)
+        }
 
         function fetch(path) {
             document.body.innerHTML = ""
+            document.body.innerHTML += "<button onclick=\"previousFolder();\">Previous Folder</button>"
             let xmlHttp = new XMLHttpRequest()
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -25,12 +33,12 @@
             }
             xmlHttp.open("GET", "https://api.github.com/repos/LarsMans64/FancyBlockIcons/contents/assets/" + path, true) // true for asynchronous 
             xmlHttp.send(null)
-            currentPath = path
+            paths.push(path)
         }
     </script>
     <style>
         img {
-            max-width: 100px;
+            max-width: 300px;
             margin: 10px;
         }
     </style>
