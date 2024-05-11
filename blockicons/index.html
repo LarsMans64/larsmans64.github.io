@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <title>Discord</title>
-      <meta http-equiv = "refresh" content = "0; url = https://discord.gg/z5GYVbnZwE" />
-   </head>
-   <body>
-      <p>Redirecting</p>
-   </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        currentPath = ""
+
+        function fetch(path) {
+            document.body.innerHTML = ""
+            let xmlHttp = new XMLHttpRequest()
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    for (let element of JSON.parse(xmlHttp.responseText)) {
+                        if (element.type == "file") {
+                            document.body.innerHTML += "<img src=\"" + element.download_url + "\">"
+                        }
+                        if (element.type == "dir") {
+                            let button = "<button onclick=\"fetch('" + path + "/" + element.name + "');\">" + element.name + "</button>"
+                            document.body.innerHTML += button
+                        }
+                    }
+                }
+            }
+            xmlHttp.open("GET", "https://api.github.com/repos/LarsMans64/FancyBlockIcons/contents/assets/" + path, true) // true for asynchronous 
+            xmlHttp.send(null)
+            currentPath = path
+        }
+    </script>
+    <style>
+        img {
+            max-width: 100px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        fetch("Icons")
+    </script>
+</body>
 </html>
