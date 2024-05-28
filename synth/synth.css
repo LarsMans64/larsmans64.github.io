@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+    background-color: #FFDDE0;
+}
+
+.piano {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.white-keys {
+    display: flex;
+    position: absolute;
+}
+
+.black-keys {
+    display: flex;
+    position: absolute;
+}
+
+.key {
+    border-radius: 18px;
+    border: 0;
+    outline: #000 solid 8px;
+    margin-right: 4px;
+    margin-left: 4px;
+    padding: 0;
+}
+
+.white-key {
+    height: 300px;
+    width: 80px;
+    background-color: #FFEDEE;
+    outline-color: #FFBACC;
+}
+
+.black-key {
+    height: 200px;
+    width: 45px;
+    margin: 0 21.5px;
+    margin-bottom: 130px;
+    flex-grow: 0;
+    background-color: #FFD1DD;
+    outline-color: #FFBACC;
+}
+
+.fake-key {
+    width: 45px;
+    margin: 0 21.5px;
+}
