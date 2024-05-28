@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8" />
     <title>Synth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="synth.css" />
+    <script src="https://unpkg.com/tone"></script>
     <script src="synth.js"></script>
 </head>
 <body>
     <div class="piano">
         <div class="white-keys">
-            <button class="key white-key" data-note="1" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key white-key" data-note="3" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key white-key" data-note="5" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key white-key" data-note="6" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key white-key" data-note="8" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key white-key" data-note="10" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key white-key" data-note="12" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <div class="key white-key" data-note="0" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="2" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="4" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="5" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="7" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="9" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="11" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key white-key" data-note="12" onmousedown="playNote(this.getAttribute('data-note'));"></div>
         </div>
         <div class="black-keys">
-            <button class="key black-key" data-note="2" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key black-key" data-note="4" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <div class="key black-key" data-note="1" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key black-key" data-note="3" onmousedown="playNote(this.getAttribute('data-note'));"></div>
             <div class="fake-key"></div>
-            <button class="key black-key" data-note="7" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key black-key" data-note="9" onclick="playNote(this.getAttribute('data-note'));"></button>
-            <button class="key black-key" data-note="11" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <div class="key black-key" data-note="6" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key black-key" data-note="8" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="key black-key" data-note="10" onmousedown="playNote(this.getAttribute('data-note'));"></div>
+            <div class="fake-key"></div>
         </div>
     </div>
 </body>

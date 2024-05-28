@@ -29,7 +29,7 @@ body {
     margin-left: 4px;
     padding: 0;
     pointer-events: all;
-    transition: translate 70ms ;
+    transition: translate 60ms ease-in;
 }
 
 .key:hover {
