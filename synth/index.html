@@ -3,25 +3,26 @@
 <head>
     <title>Synth</title>
     <link rel="stylesheet" href="synth.css" />
+    <script src="synth.js"></script>
 </head>
 <body>
     <div class="piano">
         <div class="white-keys">
-            <button class="key white-key"></button>
-            <button class="key white-key"></button>
-            <button class="key white-key"></button>
-            <button class="key white-key"></button>
-            <button class="key white-key"></button>
-            <button class="key white-key"></button>
-            <button class="key white-key"></button>
+            <button class="key white-key" data-note="1" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key white-key" data-note="3" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key white-key" data-note="5" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key white-key" data-note="6" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key white-key" data-note="8" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key white-key" data-note="10" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key white-key" data-note="12" onclick="playNote(this.getAttribute('data-note'));"></button>
         </div>
         <div class="black-keys">
-            <button class="key black-key"></button>
-            <button class="key black-key"></button>
+            <button class="key black-key" data-note="2" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key black-key" data-note="4" onclick="playNote(this.getAttribute('data-note'));"></button>
             <div class="fake-key"></div>
-            <button class="key black-key"></button>
-            <button class="key black-key"></button>
-            <button class="key black-key"></button>
+            <button class="key black-key" data-note="7" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key black-key" data-note="9" onclick="playNote(this.getAttribute('data-note'));"></button>
+            <button class="key black-key" data-note="11" onclick="playNote(this.getAttribute('data-note'));"></button>
         </div>
     </div>
 </body>

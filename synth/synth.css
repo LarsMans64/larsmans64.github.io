@@ -8,6 +8,7 @@ body {
     height: 100vh;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
 }
 
 .white-keys {
@@ -27,6 +28,16 @@ body {
     margin-right: 4px;
     margin-left: 4px;
     padding: 0;
+    pointer-events: all;
+    transition: translate 70ms ;
+}
+
+.key:hover {
+    cursor: pointer;
+}
+
+.key:active {
+    translate: 0 15px;
 }
 
 .white-key {
@@ -40,7 +51,7 @@ body {
     height: 200px;
     width: 45px;
     margin: 0 21.5px;
-    margin-bottom: 130px;
+    margin-bottom: 140px;
     flex-grow: 0;
     background-color: #FFD1DD;
     outline-color: #FFBACC;
