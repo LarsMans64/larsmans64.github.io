@@ -4,6 +4,7 @@
     - Optionally replaced by "microtones" slider
     - Different scale options (pentatonic, blues, whole tone, ...)
     - Keyboard keys
+    - MIDI support
     - Names on keys
 
 - Wave creator
