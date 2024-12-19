@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Test</title>
+    <style>
+        :root {
+            color: rgba(255, 255, 255, 0.821);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: large;
+        }
+
+        body {
+            background: url("darkforest.png");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+
+            margin: 0;
+            height: 100vh;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            justify-items: center;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .card {
+            background-color: var(--bg);
+            backdrop-filter: blur(10px) saturate(110%);
+
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            border-bottom: var(--edge) 1px solid;
+            border-top: var(--edge) 1px solid;
+        }
+
+        .card1 {
+            --bg: #1616164b;
+            --edge: #6262626b;
+        }
+
+        .card2 {
+            --bg: #7171713d;
+            --edge: #9393935d;
+        }
+
+        hr {
+            border: none;
+            border-top: var(--edge) 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div class="card card1">
+        <h2>Glassmorphism Test</h2>
+        <p>It is a test to test the looks of stuff here</p>
+        <hr>
+        <p>More text</p>
+    </div>
+    <div class="card card1">
+        <h2>Glassmorphism Test</h2>
+        <p>It is a test to test the looks of stuff here</p>
+        <hr>
+        <p>More text</p>
+    </div>
+    <div class="card card2">
+        <h2>Glassmorphism Test</h2>
+        <p>It is a test to test the looks of stuff here</p>
+        <hr>
+        <p>More text</p>
+    </div>
+    <div class="card card2">
+        <h2>Glassmorphism Test</h2>
+        <p>It is a test to test the looks of stuff here</p>
+        <hr>
+        <p>More text</p>
+    </div>
+</body>
+</html>
+
+<!-- gradients, backgrounds, shadows -->
