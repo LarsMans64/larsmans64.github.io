@@ -8,7 +8,7 @@
     <div class="card">
       <h1>⚠️ Work in progress ⚠️</h1>
       <p>This will have to get redesigned some time soon :)</p>
-      <p>If you came here looking for the planet thing: <a href="/planets">here</a>.</p>
+      <p>If you came here looking for the planet thing: <a href="https://larsmans.nl/planets">here</a>.</p>
     </div>
     <p>
       <a href="https://github.com/LarsMans64">GitHub</a>
