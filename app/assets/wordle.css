@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+button,
+[role="button"] {
+    cursor: pointer;
+}
+
+:disabled {
+    cursor: default;
+}
+
+.wordle-tile.correct {
+    @apply border-green-400 bg-green-300 dark:border-green-400 dark:bg-green-500
+}
+
+.wordle-tile.wrong-position {
+    @apply border-yellow-300 bg-yellow-200 dark:border-yellow-300 dark:bg-yellow-400
+}
+
+.wordle-tile.wrong {
+    @apply border-neutral-300 bg-neutral-200 dark:border-accented dark:bg-elevated
+}

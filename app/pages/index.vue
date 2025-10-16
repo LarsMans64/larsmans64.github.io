@@ -46,6 +46,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
 
   text-align: center;
 }
@@ -55,12 +56,16 @@
   border: .3em dashed var(--border);
   border-radius: 2em;
 
-  padding: 1em 4em 2em;
+  padding: 2em 4em;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 h1 {
+  font-size: 2rem;
   color: var(--heading);
-  margin-block: 2rem;
   text-wrap: balance;
 }
 
