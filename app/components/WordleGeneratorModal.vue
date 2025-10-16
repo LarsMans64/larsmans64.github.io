@@ -1,10 +1,13 @@
 <script setup lang="ts">
-const toast = useToast();
+import {createWordleOpen} from "~/utils/wordle";
 
-const open = ref(false);
+const toast = useToast();
+const wordInput = useTemplateRef("wordInput");
 
 const word = ref("");
 const attempts = ref(6);
+const hardMode = ref(false);
+const noHints = ref(false);
 
 watch(word, () => {
   const upper = word.value.toUpperCase();
@@ -20,7 +23,7 @@ const valid = computed(() => {
 
 const linkPrefix = window?.location.origin + window?.location.pathname + "?w=";
 
-const result = computed(() => btoa(attempts.value.toString() + word.value));
+const result = computed(() => encodeURIComponent(btoa(attempts.value.toString() + word.value)));
 const link = computed(() => linkPrefix + result.value);
 
 function copy() {
@@ -31,31 +34,46 @@ function copy() {
   })
 }
 
+function close() {
+  createWordleOpen.value = false;
+}
+
 function play() {
   reloadNuxtApp({path: link.value});
 }
 
-function close() {
-  open.value = false;
-}
+watch(createWordleOpen, (val) => {
+  setTimeout(() => {
+    if (val) {
+      wordInput.value?.inputRef?.focus();
+    }
+  }, 100);
+})
 </script>
 
 <template>
-  <UModal title="Generate a link" v-model:open="open">
+  <UModal title="Generate a link" v-model:open="createWordleOpen">
     <slot/>
 
-    <template #description>hahe</template>
+    <template #description>
+      Create a custom Wordle and share it with your friends.
+    </template>
 
     <template #body>
       <div class="flex flex-col gap-7">
         <UForm class="grid sm:grid-cols-2 gap-5">
           <UFormField label="Custom word" required>
-            <UInput v-model.trim="word" variant="subtle" placeholder="Xnopyt" class="w-full"/>
+            <UInput v-model.trim="word" ref="wordInput" variant="subtle" placeholder="Xnopyt" class="w-full"/>
           </UFormField>
 
           <UFormField label="Max number of attempts" required>
             <UInputNumber v-model="attempts" variant="subtle" class="w-full"/>
           </UFormField>
+
+          <UCheckbox v-model="hardMode" label="Forced hard mode" description="You are forced to always use already discovered letters"/>
+          <UCheckbox v-model="noHints" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/>
+
+          <!-- maybe disappearing previous guesses -->
         </UForm>
 
         <USeparator/>

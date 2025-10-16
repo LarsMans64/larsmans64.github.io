@@ -2,7 +2,9 @@
 @import "tailwindcss";
 
 button,
-[role="button"] {
+[role="button"],
+[role="checkbox"],
+label {
     cursor: pointer;
 }
 

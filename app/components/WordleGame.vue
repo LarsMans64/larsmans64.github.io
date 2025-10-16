@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {verifyWord} from "~/utils/wordle"
+import {verifyWord, WordleLetterState} from "~/utils/wordle"
 
 const props = defineProps<{
   word: string
@@ -8,7 +8,7 @@ const props = defineProps<{
 
 interface TileData {
   letter: string,
-  state: "empty" | "wrong" | "wrong_position" | "correct";
+  state: WordleLetterState;
 }
 
 const wordLength = props.word.length;
@@ -22,51 +22,48 @@ for (let i = 0; i < props.attempts; i++) {
     if (!word) continue;
     word[j] = {
       letter: " ",
-      state: "empty",
+      state: WordleLetterState.Empty,
     }
   }
 }
 
-const first = field.value[0];
-
-for (let j = 0; j < wordLength; j++) {
-  if (!first) continue;
-  first[j] = {
-    letter: props.word[j] ?? " ",
-    state: "correct",
-  }
-}
-
-const typedWord = ref("");
-const typingRow = ref(1);
+let typedWord = "";
+const typingRow = ref(0);
 
 function keyPressed(key: string) {
-  if (key === "Enter") {
-    if (typedWord.value.length == wordLength) {
-
-      console.log(verifyWord(typedWord.value, props.word));
-
-      typingRow.value++;
-      typedWord.value = "";
-    }
+  if (typedWord.length < wordLength) {
+    typedWord = typedWord.concat(key);
+    updateField();
   }
-  else if (key === "Backspace") {
-    typedWord.value = typedWord.value.slice(0, typedWord.value.length - 1);
-  }
-  else if (typedWord.value.length < wordLength) {
-    typedWord.value = typedWord.value.concat(key);
-  }
+}
 
-  const word = field.value[typingRow.value];
+function backspacePressed() {
+  typedWord = typedWord.slice(0, typedWord.length - 1);
+  updateField();
+}
 
-  for (let i = 0; i < wordLength; i++) {
-    const letter = word?.[i];
-    if (letter) {
-      letter.letter = typedWord.value[i] ?? " ";
-    }
+function updateField() {
+  field.value[typingRow.value]?.forEach((letter, index) => {
+    letter.letter = typedWord[index] ?? " ";
+  })
+}
+
+function enterPressed() {
+  if (typedWord.length != wordLength) {
+    useToast().add({title: "bruh", duration: 1000});
+    return;
   }
 
-  // useToast().add({title: typedWord.value});
+  const verified = verifyWord(typedWord, props.word);
+
+  verified.forEach((value, index) => {
+    const letter = field.value[typingRow.value]?.[index]
+    if (!letter) return;
+    letter.state = value;
+  })
+
+  typingRow.value++;
+  typedWord = "";
 }
 </script>
 
@@ -78,7 +75,11 @@ function keyPressed(key: string) {
   </div>
 
   <div class="flex justify-center mt-10">
-    <WordleKeyboard @key-pressed="keyPressed" :key-hints="{'H': 'correct', 'G': 'wrong', 'L': 'wrong_position'}"/>
+    <WordleKeyboard
+        @key-pressed="keyPressed"
+        @enter-pressed="enterPressed"
+        @backspace-pressed="backspacePressed"
+        :key-hints="{'H': WordleLetterState.Correct, 'G': WordleLetterState.Wrong, 'L': WordleLetterState.WrongPosition}"/>
   </div>
 </template>
 
