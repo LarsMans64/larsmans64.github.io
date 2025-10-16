@@ -2,8 +2,7 @@
 import {verifyWord, WordleLetterState} from "~/utils/wordle"
 
 const props = defineProps<{
-  word: string
-  attempts: number
+  settings: WordleSettings
 }>();
 
 interface TileData {
@@ -11,11 +10,11 @@ interface TileData {
   state: WordleLetterState;
 }
 
-const wordLength = props.word.length;
+const wordLength = props.settings.word.length;
 
 const field = ref<TileData[][]>([]);
 
-for (let i = 0; i < props.attempts; i++) {
+for (let i = 0; i < props.settings.attempts; i++) {
   field.value[i] = [];
   for (let j = 0; j < wordLength; j++) {
     const word = field.value[i];
@@ -48,38 +47,58 @@ function updateField() {
   })
 }
 
+const keyHints = ref<Map<string, WordleLetterState>>(new Map());
+const toast = useToast();
+
 function enterPressed() {
   if (typedWord.length != wordLength) {
-    useToast().add({title: "bruh", duration: 1000});
+    toast.add({title: "bruh", duration: 1000, progress: false});
     return;
   }
 
-  const verified = verifyWord(typedWord, props.word);
+  if (props.settings.hardMode && !containsAllHints(typedWord)) {
+    toast.add({title: "You need to use all discovered letters in hard mode!"});
+    return;
+  }
+
+  const verified = verifyWord(typedWord, props.settings.word);
 
   verified.forEach((value, index) => {
     const letter = field.value[typingRow.value]?.[index]
     if (!letter) return;
     letter.state = value;
+    keyHints.value.set(letter.letter, value);
   })
 
   typingRow.value++;
   typedWord = "";
 }
+
+function containsAllHints(word: string) {
+  for (const [letter, state] of keyHints.value.entries()) {
+    if ((state === WordleLetterState.WrongPosition || state === WordleLetterState.Correct) && !word.includes(letter)) {
+      return false;
+    }
+  }
+  return true;
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 justify-self-center">
-    <div v-for="row in field" class="flex gap-2">
-      <WordleTile v-for="tile in row" :letter="tile.letter" :state="tile.state"/>
+  <div>
+    <div class="flex flex-col gap-2 justify-self-center overflow-auto">
+      <div v-for="row in field" class="flex gap-2">
+        <WordleTile v-for="tile in row" :letter="tile.letter" :state="tile.state"/>
+      </div>
     </div>
-  </div>
 
-  <div class="flex justify-center mt-10">
-    <WordleKeyboard
-        @key-pressed="keyPressed"
-        @enter-pressed="enterPressed"
-        @backspace-pressed="backspacePressed"
-        :key-hints="{'H': WordleLetterState.Correct, 'G': WordleLetterState.Wrong, 'L': WordleLetterState.WrongPosition}"/>
+    <div class="flex justify-center mt-10">
+      <WordleKeyboard
+          @key-pressed="keyPressed"
+          @enter-pressed="enterPressed"
+          @backspace-pressed="backspacePressed"
+          :key-hints="settings.noHints ? undefined : keyHints"/>
+    </div>
   </div>
 </template>
 

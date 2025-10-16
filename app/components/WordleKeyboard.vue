@@ -4,7 +4,7 @@ import {createWordleOpen} from "~/utils/wordle"
 const keys = ["QWERTYUIOP", "ASDFGHJKL", "eZXCVBNMb"];
 
 defineProps<{
-  keyHints: Record<string, WordleLetterState>
+  keyHints?: Map<string, WordleLetterState>
 }>();
 
 const emit = defineEmits<{
@@ -25,7 +25,7 @@ function press(key: string) {
 
 onMounted(() => {
   document.addEventListener("keydown", event => {
-    if (createWordleOpen.value || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
+    if (hasFocus() || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
       return;
     }
 
@@ -37,6 +37,12 @@ onMounted(() => {
     }
   })
 })
+
+function hasFocus() {
+  return Array
+      .from(document.querySelectorAll("body *"))
+      .some(el => el === document.activeElement);
+}
 </script>
 
 <template>
@@ -44,21 +50,21 @@ onMounted(() => {
     <div v-for="row in keys" class="flex justify-center gap-1">
       <UButton
           v-for="key in row"
-          class="wordle-tile w-[1.5em] sm:w-[2em] h-[2.5em] text-lg sm:text-2xl text-highlighted flex justify-center items-center border-2 hover:-translate-y-0.5 transition-transform "
+          class="wordle-tile w-[1.5em] sm:w-[2em] h-[2.5em] text-lg sm:text-2xl text-highlighted flex justify-center items-center border-2 hover:-translate-y-0.5 transition-transform"
           :class="{
             'grow': 'eb'.includes(key),
-            'bg-slate-200 border-slate-300 dark:bg-slate-600 dark:border-slate-500 hover:bg-slate-200 hover:dark:bg-slate-600': !keyHints?.[key],
-            'correct': keyHints?.[key] === WordleLetterState.Correct,
-            'wrong-position': keyHints?.[key] === WordleLetterState.WrongPosition,
-            'text-inverted dark:text-muted bg-neutral-500 border-neutral-600 dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-500 hover:dark:bg-neutral-800': keyHints?.[key] === WordleLetterState.Wrong,
+            'bg-slate-200 border-slate-300 dark:bg-slate-600 dark:border-slate-500 hover:bg-slate-200 hover:dark:bg-slate-600': !keyHints?.get(key),
+            'correct': keyHints?.get(key) === WordleLetterState.Correct,
+            'wrong-position': keyHints?.get(key) === WordleLetterState.WrongPosition,
+            'text-inverted dark:text-muted bg-neutral-500 border-neutral-600 dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-500 hover:dark:bg-neutral-800': keyHints?.get(key) === WordleLetterState.Wrong,
           }"
           @click="press(key)"
       >
         <template v-if="key.toUpperCase() == key">
           {{ key }}
         </template>
-        <Icon v-if="key == 'b'" name="material-symbols:backspace-outline-rounded" size="1.3em"/>
-        <Icon v-if="key == 'e'" name="material-symbols:check-rounded" size="1.3em"/>
+        <Icon v-if="key == 'b'" name="material-symbols:backspace-rounded" size="1.1em"/>
+        <Icon v-if="key == 'e'" name="material-symbols:keyboard-return" size="1.3em"/>
       </UButton>
     </div>
   </div>

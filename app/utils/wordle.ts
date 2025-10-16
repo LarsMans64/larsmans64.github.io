@@ -5,6 +5,13 @@ export enum WordleLetterState {
     Empty = "empty",
 }
 
+export interface WordleSettings {
+    word: string
+    attempts: number
+    hardMode: boolean
+    noHints: boolean
+}
+
 export function verifyWord(inputWord: string, targetWord: string): WordleLetterState[] {
     const result: WordleLetterState[] = Array(inputWord.length).fill(WordleLetterState.Wrong);
 
@@ -34,5 +41,3 @@ export function verifyWord(inputWord: string, targetWord: string): WordleLetterS
 
     return result;
 }
-
-export const createWordleOpen = ref(false);
