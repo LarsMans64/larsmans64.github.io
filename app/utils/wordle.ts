@@ -6,10 +6,45 @@ export enum WordleLetterState {
 }
 
 export interface WordleSettings {
-    word: string
-    attempts: number
-    hardMode: boolean
-    noHints: boolean
+    word: string,
+    attempts: number,
+    onlyValid?: boolean,
+    hardMode?: boolean,
+    noHints?: boolean,
+    hidePrevious?: boolean,
+}
+
+export function parseSettings(str: string): WordleSettings | undefined {
+    const regex = /^(\d+)([A-Z]+)([01])?([01])?([01])?/;
+
+    const result = regex.exec(atob(str));
+
+    if (!result || !result[1] || !result[2]) {
+        return undefined;
+    }
+
+    const settings: WordleSettings = {
+        word: result[2],
+        attempts: Number.parseInt(result[1]),
+    }
+
+    if (result[3]) settings.onlyValid    = result[3] === '1';
+    if (result[4]) settings.hardMode     = result[4] === '1';
+    if (result[5]) settings.noHints      = result[5] === '1';
+    if (result[6]) settings.hidePrevious = result[6] === '1';
+
+    return settings;
+}
+
+export function serializeSettings(settings: WordleSettings) {
+    return btoa(
+        settings.attempts.toString()
+        + settings.word
+        + (settings.onlyValid ? "1" : "0")
+        + (settings.hardMode ? "1" : "0")
+        + (settings.noHints ? "1" : "0")
+        + (settings.hidePrevious ? "1" : "0")
+    );
 }
 
 export function verifyWord(inputWord: string, targetWord: string): WordleLetterState[] {

@@ -1,14 +1,26 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-.wordle-tile.correct {
-    @apply border-green-400 bg-green-300 dark:border-green-400 dark:bg-green-500
+.wordle-tile {
+    @apply w-[2.3em] h-[2.3em] flex items-center justify-center text-2xl sm:text-3xl text-black dark:text-white font-semibold border-2 rounded-sm
 }
 
-.wordle-tile.wrong-position {
-    @apply border-yellow-300 bg-yellow-200 dark:border-yellow-300 dark:bg-yellow-400
+.wordle-empty {
+    @apply border-default
 }
 
-.wordle-tile.wrong {
-    @apply border-neutral-300 bg-neutral-200 dark:border-accented dark:bg-elevated
+.wordle-guess {
+    @apply light:bg-elevated border-accented
+}
+
+.wordle-correct {
+    @apply light:text-inverted border-green-500 bg-green-400 dark:border-green-400 dark:bg-green-500
+}
+
+.wordle-wrong-position {
+    @apply light:text-inverted border-amber-400 bg-amber-300 dark:border-amber-300 dark:bg-amber-400
+}
+
+.wordle-wrong {
+    @apply light:text-inverted border-neutral-600 bg-neutral-500 dark:border-accented dark:bg-elevated
 }

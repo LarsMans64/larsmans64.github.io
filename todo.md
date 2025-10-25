@@ -1,0 +1,4 @@
+# Wordle
+
+- Completion popup
+- Animations

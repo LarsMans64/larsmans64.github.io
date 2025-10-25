@@ -1,38 +1,24 @@
 <script setup lang="ts">
 import "~/assets/wordle.css";
-import type {WordleSettings} from "~/utils/wordle";
+import {parseSettings, type WordleSettings} from "~/utils/wordle";
 
 const query = useRoute().query["w"];
 
 const loadedSettings = ref<WordleSettings>();
 
 if (query && typeof query !== 'object') {
-  const regex = /^(\d+)([A-Z]+)([01])([01])$/;
-  const str = atob(query);
-
-  const result = regex.exec(str);
-
-  if (result && result[1] && result[2] && result[3] && result[4]) {
-    loadedSettings.value = {
-      word: result[2],
-      attempts: Number.parseInt(result[1]),
-      hardMode: result[3] === '1',
-      noHints: result[4] === '1',
-    }
-  }
+  loadedSettings.value = parseSettings(query);
 }
 
-const settings = ref<WordleSettings | undefined>(JSON.parse(JSON.stringify(loadedSettings.value)));
+const settings = ref<WordleSettings | undefined>(loadedSettings.value ? JSON.parse(JSON.stringify(loadedSettings.value)) : undefined);
 </script>
 
 <template>
   <UApp>
-    <UHeader title="Custom Wordle" to="/wordle" mode="slideover">
+    <UHeader to="/wordle">
 
-      <template #body>
-        <WordleGeneratorModal>
-          <UButton label="Create link" icon="material-symbols:add" size="lg"/>
-        </WordleGeneratorModal>
+      <template #title>
+        <h1>Cust<span class="text-yellow-500 dark:text-yellow-300">o</span>m W<span class="text-green-600 dark:text-green-400">o</span>rdle</h1>
       </template>
 
       <template #right>
@@ -41,25 +27,41 @@ const settings = ref<WordleSettings | undefined>(JSON.parse(JSON.stringify(loade
     </UHeader>
 
     <UMain class="p-2 py-6">
-      <UPage>
-        <div class="overflow-hidden">
-          <WordleGame v-if="settings" :settings="settings"/>
-        </div>
-
+      <UPage v-if="settings">
         <template #left>
-          <div class="flex flex-col items-start gap-8 px-3 pb-6">
+          <div class="flex flex-col gap-10 px-5 py-5">
             <WordleGeneratorModal>
-              <UButton label="Create link" icon="material-symbols:add" size="lg"/>
+              <UButton class="w-fit" label="Create custom link" icon="material-symbols:add" size="lg"/>
             </WordleGeneratorModal>
-            <template v-if="settings">
-              <USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" label="Hard mode" description="You are forced to always use already discovered letters"/>
-              <USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/>
-            </template>
+
+            <USeparator/>
+
+            <USwitch v-model="settings.onlyValid" :disabled="loadedSettings?.onlyValid" :color="loadedSettings?.onlyValid ? 'neutral' : undefined" label="Only valid words" description="Only allow valid English words" variant="card"/>
+            <USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" :color="loadedSettings?.hardMode ? 'neutral' : undefined" label="Hard mode" description="You are forced to always use already discovered letters" variant="card"/>
+            <USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" :color="loadedSettings?.noHints ? 'neutral' : undefined" label="No keyboard hints" description="Discovered letters won't show on the keyboard" variant="card"/>
+            <USwitch v-model="settings.hidePrevious" :disabled="loadedSettings?.hidePrevious" :color="loadedSettings?.hidePrevious ? 'neutral' : undefined" label="Hide previous guesses" description="You will only be able to see the most recent guess" variant="card"/>
           </div>
         </template>
 
+        <div class="overflow-hidden">
+          <WordleGame :settings="settings"/>
+        </div>
+
         <template #right><div></div></template>
       </UPage>
+
+      <div v-else class="min-h-[75vh] flex flex-col gap-4 justify-center items-center text-center">
+        <h1 class="text-4xl text-accented font-bold">Custom Wordle</h1>
+        <h2 class="text-lg text-toned font-semibold text-balance">Create a custom Wordle and send a unique link to your friends!</h2>
+
+        <WordleGeneratorModal class="my-4">
+          <UButton label="Create custom link" icon="material-symbols:add" size="xl"/>
+        </WordleGeneratorModal>
+
+        <div class="text-muted">
+          Created by LarsMans
+        </div>
+      </div>
     </UMain>
   </UApp>
 </template>

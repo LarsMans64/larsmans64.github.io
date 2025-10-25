@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {createWordleOpen} from "~/utils/wordle"
-
 const keys = ["QWERTYUIOP", "ASDFGHJKL", "eZXCVBNMb"];
 
 defineProps<{
@@ -50,12 +48,12 @@ function hasFocus() {
     <div v-for="row in keys" class="flex justify-center gap-1">
       <UButton
           v-for="key in row"
-          class="wordle-tile w-[1.5em] sm:w-[2em] h-[2.5em] text-lg sm:text-2xl text-highlighted flex justify-center items-center border-2 hover:-translate-y-0.5 transition-transform"
+          class="w-[1.5em] sm:w-[2em] h-[2.5em] text-lg sm:text-2xl text-highlighted flex justify-center items-center border-2 hover:-translate-y-0.5 transition-all"
           :class="{
             'grow': 'eb'.includes(key),
             'bg-slate-200 border-slate-300 dark:bg-slate-600 dark:border-slate-500 hover:bg-slate-200 hover:dark:bg-slate-600': !keyHints?.get(key),
-            'correct': keyHints?.get(key) === WordleLetterState.Correct,
-            'wrong-position': keyHints?.get(key) === WordleLetterState.WrongPosition,
+            'wordle-correct': keyHints?.get(key) === WordleLetterState.Correct,
+            'wordle-wrong-position': keyHints?.get(key) === WordleLetterState.WrongPosition,
             'text-inverted dark:text-muted bg-neutral-500 border-neutral-600 dark:bg-neutral-800 dark:border-neutral-700 hover:bg-neutral-500 hover:dark:bg-neutral-800': keyHints?.get(key) === WordleLetterState.Wrong,
           }"
           @click="press(key)"
@@ -64,7 +62,7 @@ function hasFocus() {
           {{ key }}
         </template>
         <Icon v-if="key == 'b'" name="material-symbols:backspace-rounded" size="1.1em"/>
-        <Icon v-if="key == 'e'" name="material-symbols:keyboard-return" size="1.3em"/>
+        <Icon v-if="key == 'e'" name="material-symbols:keyboard-return-rounded" size="1.3em"/>
       </UButton>
     </div>
   </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {serializeSettings} from "~/utils/wordle";
 
 const toast = useToast();
 const wordInput = useTemplateRef("wordInput");
@@ -8,8 +9,7 @@ const isOpen = ref(false);
 const settings = reactive<WordleSettings>({
   word: "",
   attempts: 6,
-  hardMode: false,
-  noHints: false,
+  onlyValid: true,
 })
 
 watch(settings, () => {
@@ -21,14 +21,7 @@ watch(settings, () => {
 
 const linkPrefix = window?.location.origin + window?.location.pathname + "?w=";
 
-const result = computed(() => {
-  return btoa(
-      settings.attempts.toString()
-      + settings.word
-      + (settings.hardMode ? "1" : "0")
-      + (settings.noHints ? "1" : "0")
-  ).replaceAll(/\?/g, "%3F");
-});
+const result = computed(() => serializeSettings(settings));
 
 const link = computed(() => linkPrefix + result.value);
 
@@ -68,7 +61,7 @@ watch(isOpen, (val) => {
     <slot/>
 
     <template #description>
-      Create a custom Wordle and share it with your friends.
+      Create a custom Wordle and share it with your friends
     </template>
 
     <template #body>
@@ -82,8 +75,10 @@ watch(isOpen, (val) => {
             <UInputNumber v-model="settings.attempts" variant="subtle" class="w-full"/>
           </UFormField>
 
+          <UCheckbox v-model="settings.onlyValid" label="Only valid words" description="Allow only valid English words"/>
           <UCheckbox v-model="settings.hardMode" label="Forced hard mode" description="You are forced to always use already discovered letters"/>
           <UCheckbox v-model="settings.noHints" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/>
+          <UCheckbox v-model="settings.hidePrevious" label="Hide previous guesses" description="You will only be able to see the most recent guess"/>
 
           <!-- maybe disappearing previous guesses -->
         </UForm>

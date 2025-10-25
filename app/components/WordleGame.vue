@@ -6,7 +6,7 @@ const props = defineProps<{
 }>();
 
 interface TileData {
-  letter: string,
+  letter?: string,
   state: WordleLetterState;
 }
 
@@ -20,7 +20,6 @@ for (let i = 0; i < props.settings.attempts; i++) {
     const word = field.value[i];
     if (!word) continue;
     word[j] = {
-      letter: " ",
       state: WordleLetterState.Empty,
     }
   }
@@ -43,16 +42,16 @@ function backspacePressed() {
 
 function updateField() {
   field.value[typingRow.value]?.forEach((letter, index) => {
-    letter.letter = typedWord[index] ?? " ";
+    letter.letter = typedWord[index] ?? undefined;
   })
 }
 
 const keyHints = ref<Map<string, WordleLetterState>>(new Map());
 const toast = useToast();
 
-function enterPressed() {
+async function enterPressed() {
   if (typedWord.length != wordLength) {
-    toast.add({title: "bruh", duration: 1000, progress: false});
+    toast.add({title: "Really?", duration: 1000, progress: false});
     return;
   }
 
@@ -61,11 +60,22 @@ function enterPressed() {
     return;
   }
 
+  if (typedWord !== props.settings.word && props.settings.onlyValid) {
+    try {
+      await $fetch<any>("https://api.dictionaryapi.dev/api/v2/entries/en/" + typedWord);
+
+    } catch (e) {
+      toast.add({title: `${typedWord} is not a valid word!`, color: "warning"});
+      return;
+    }
+  }
+
+
   const verified = verifyWord(typedWord, props.settings.word);
 
   verified.forEach((value, index) => {
     const letter = field.value[typingRow.value]?.[index]
-    if (!letter) return;
+    if (!letter || !letter.letter) return;
     letter.state = value;
     keyHints.value.set(letter.letter, value);
   })
@@ -87,8 +97,8 @@ function containsAllHints(word: string) {
 <template>
   <div>
     <div class="flex flex-col gap-2 justify-self-center overflow-auto">
-      <div v-for="row in field" class="flex gap-2">
-        <WordleTile v-for="tile in row" :letter="tile.letter" :state="tile.state"/>
+      <div v-for="(row, i) in field" class="flex gap-2">
+        <WordleTile v-for="tile in row" :letter="tile.letter" :state="tile.state" :hide="settings.hidePrevious && i + 1 < typingRow"/>
       </div>
     </div>
 
