@@ -29,7 +29,7 @@ const settings = ref<WordleSettings | undefined>(loadedSettings.value ? JSON.par
     <UMain class="p-2 py-6">
       <UPage v-if="settings">
         <template #left>
-          <div class="flex flex-col gap-10 px-5 py-5">
+          <div class="flex flex-col gap-10 px-5 pt-5 pb-10">
             <WordleGeneratorModal>
               <UButton class="w-fit" label="Create custom link" icon="material-symbols:add" size="lg"/>
             </WordleGeneratorModal>

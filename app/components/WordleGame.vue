@@ -62,7 +62,7 @@ async function enterPressed() {
 
   if (typedWord !== props.settings.word && props.settings.onlyValid) {
     try {
-      await $fetch<any>("https://api.dictionaryapi.dev/api/v2/entries/en/" + typedWord);
+      await $fetch<any>("https://api.dictionaryapi.dev/api/v2/entries/en/" + typedWord.toLowerCase());
 
     } catch (e) {
       toast.add({title: `${typedWord} is not a valid word!`, color: "warning"});
@@ -77,11 +77,18 @@ async function enterPressed() {
     const letter = field.value[typingRow.value]?.[index]
     if (!letter || !letter.letter) return;
     letter.state = value;
-    keyHints.value.set(letter.letter, value);
+    addKeyHint(letter.letter, value);
   })
 
   typingRow.value++;
   typedWord = "";
+}
+
+function addKeyHint(letter: string, state: WordleLetterState) {
+  const saved = keyHints.value.get(letter);
+  if (!saved || saved < state) {
+    keyHints.value.set(letter, state);
+  }
 }
 
 function containsAllHints(word: string) {

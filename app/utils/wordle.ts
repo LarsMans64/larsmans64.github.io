@@ -1,8 +1,8 @@
 export enum WordleLetterState {
-    Correct = "correct",
-    WrongPosition = "wrong_position",
-    Wrong = "wrong",
-    Empty = "empty",
+    Empty = 0,
+    Wrong = 1,
+    WrongPosition = 2,
+    Correct = 3,
 }
 
 export interface WordleSettings {
