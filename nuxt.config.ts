@@ -13,6 +13,10 @@ export default defineNuxtConfig({
         }
     },
 
+    icon: {
+        serverBundle: false,
+    },
+
     vite: {
         plugins: [
             tailwindcss(),
