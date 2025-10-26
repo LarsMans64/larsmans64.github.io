@@ -15,7 +15,7 @@ export interface WordleSettings {
 }
 
 export function parseSettings(str: string): WordleSettings | undefined {
-    const regex = /^(\d+)([A-Z]+)([01])?([01])?([01])?/;
+    const regex = /^(\d+)([A-Z]+)([01])?([01])?([01])?([01])?/;
 
     const result = regex.exec(atob(str));
 

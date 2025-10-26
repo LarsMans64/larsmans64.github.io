@@ -11,12 +11,13 @@ if (query && typeof query !== 'object') {
 }
 
 const settings = ref<WordleSettings | undefined>(loadedSettings.value ? JSON.parse(JSON.stringify(loadedSettings.value)) : undefined);
+
+const settingsOpen = useLocalStorage("settings-open", true);
 </script>
 
 <template>
   <UApp>
-    <UHeader to="/wordle">
-
+    <UHeader :toggle="false">
       <template #title>
         <h1>Cust<span class="text-yellow-500 dark:text-yellow-300">o</span>m W<span class="text-green-600 dark:text-green-400">o</span>rdle</h1>
       </template>
@@ -29,18 +30,34 @@ const settings = ref<WordleSettings | undefined>(loadedSettings.value ? JSON.par
     <UMain class="p-2 py-6">
       <UPage v-if="settings">
         <template #left>
-          <div class="flex flex-col gap-10 px-5 pt-5 pb-10">
-            <WordleGeneratorModal>
-              <UButton class="w-fit" label="Create custom link" icon="material-symbols:add" size="lg"/>
-            </WordleGeneratorModal>
+          <UCollapsible v-model:open="settingsOpen" class="group flex flex-col gap-5 px-3 pb-7">
+            <UButton
+                class="text-muted"
+                variant="soft" color="neutral"
+                trailing-icon="material-symbols:arrow-drop-down-rounded"
+                :ui="{ trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-300 ease-out' }"
+                block
+            >
+              Settings
+            </UButton>
 
-            <USeparator/>
+            <template #content>
+              <div class="flex flex-col gap-5 p-3 pt-5 rounded-md border border-default">
+                <WordleGeneratorModal>
+                  <UButton variant="subtle" label="Create custom link" icon="material-symbols:add" size="lg"/>
+                </WordleGeneratorModal>
 
-            <USwitch v-model="settings.onlyValid" :disabled="loadedSettings?.onlyValid" :color="loadedSettings?.onlyValid ? 'neutral' : undefined" label="Only valid words" description="Only allow valid English words" variant="card"/>
-            <USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" :color="loadedSettings?.hardMode ? 'neutral' : undefined" label="Hard mode" description="You are forced to always use already discovered letters" variant="card"/>
-            <USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" :color="loadedSettings?.noHints ? 'neutral' : undefined" label="No keyboard hints" description="Discovered letters won't show on the keyboard" variant="card"/>
-            <USwitch v-model="settings.hidePrevious" :disabled="loadedSettings?.hidePrevious" :color="loadedSettings?.hidePrevious ? 'neutral' : undefined" label="Hide previous guesses" description="You will only be able to see the most recent guess" variant="card"/>
-          </div>
+                <USeparator/>
+
+                <div class="flex flex-col gap-7 py-3">
+                  <USwitch v-model="settings.onlyValid" :disabled="loadedSettings?.onlyValid" :color="loadedSettings?.onlyValid ? 'neutral' : undefined" label="Only valid words" description="Only allow valid English words" variant="card"/>
+                  <USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" :color="loadedSettings?.hardMode ? 'neutral' : undefined" label="Hard mode" description="You are forced to always use already discovered letters" variant="card"/>
+                  <USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" :color="loadedSettings?.noHints ? 'neutral' : undefined" label="No keyboard hints" description="Discovered letters won't show on the keyboard" variant="card"/>
+                  <USwitch v-model="settings.hidePrevious" :disabled="loadedSettings?.hidePrevious" :color="loadedSettings?.hidePrevious ? 'neutral' : undefined" label="Hide previous guesses" description="You will only be able to see the most recent guess" variant="card"/>
+                </div>
+              </div>
+            </template>
+          </UCollapsible>
         </template>
 
         <div class="overflow-hidden">
