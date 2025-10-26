@@ -35,7 +35,7 @@ const settingsOpen = useLocalStorage("settings-open", true);
                 class="text-muted"
                 variant="soft" color="neutral"
                 trailing-icon="material-symbols:arrow-drop-down-rounded"
-                :ui="{ trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-300 ease-out' }"
+                :ui="{ trailingIcon: 'group-data-[state=open]:-scale-y-100 transition-transform duration-300 ease-out' }"
                 block
             >
               Settings
@@ -50,10 +50,10 @@ const settingsOpen = useLocalStorage("settings-open", true);
                 <USeparator/>
 
                 <div class="flex flex-col gap-7 py-3">
-                  <USwitch v-model="settings.onlyValid" :disabled="loadedSettings?.onlyValid" :color="loadedSettings?.onlyValid ? 'neutral' : undefined" label="Only valid words" description="Only allow valid English words" variant="card"/>
-                  <USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" :color="loadedSettings?.hardMode ? 'neutral' : undefined" label="Hard mode" description="You are forced to always use already discovered letters" variant="card"/>
-                  <USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" :color="loadedSettings?.noHints ? 'neutral' : undefined" label="No keyboard hints" description="Discovered letters won't show on the keyboard" variant="card"/>
-                  <USwitch v-model="settings.hidePrevious" :disabled="loadedSettings?.hidePrevious" :color="loadedSettings?.hidePrevious ? 'neutral' : undefined" label="Hide previous guesses" description="You will only be able to see the most recent guess" variant="card"/>
+                  <USwitch v-model="settings.onlyValid" :disabled="loadedSettings?.onlyValid" :color="loadedSettings?.onlyValid ? 'neutral' : undefined" label="Only valid words" description="Only allow valid English words"/>
+                  <USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" :color="loadedSettings?.hardMode ? 'neutral' : undefined" label="Hard mode" description="You are forced to always use already discovered letters"/>
+                  <USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" :color="loadedSettings?.noHints ? 'neutral' : undefined" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/>
+                  <USwitch v-model="settings.hidePrevious" :disabled="loadedSettings?.hidePrevious" :color="loadedSettings?.hidePrevious ? 'neutral' : undefined" label="Hide previous guesses" description="You will only be able to see the most recent guess"/>
                 </div>
               </div>
             </template>

@@ -29,7 +29,7 @@ let typedWord = "";
 const typingRow = ref(0);
 
 function keyPressed(key: string) {
-  if (typedWord.length < wordLength) {
+  if (typedWord.length < wordLength && typingRow.value < props.settings.attempts) {
     typedWord = typedWord.concat(key);
     updateField();
   }
@@ -65,11 +65,10 @@ async function enterPressed() {
       await $fetch<any>("https://api.dictionaryapi.dev/api/v2/entries/en/" + typedWord.toLowerCase());
 
     } catch (e) {
-      toast.add({title: `${typedWord} is not a valid word!`, color: "warning"});
+      toast.add({title: `${typedWord} is an invalid word!`, color: "warning"});
       return;
     }
   }
-
 
   const verified = verifyWord(typedWord, props.settings.word);
 
