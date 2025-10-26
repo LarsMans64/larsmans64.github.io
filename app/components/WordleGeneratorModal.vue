@@ -75,10 +75,10 @@ watch(isOpen, (val) => {
             <UInputNumber v-model="settings.attempts" variant="subtle" class="w-full"/>
           </UFormField>
 
-          <UCheckbox v-model="settings.onlyValid" label="Only valid words" description="Allow only valid English words"/>
-          <UCheckbox v-model="settings.hardMode" label="Forced hard mode" description="You are forced to always use already discovered letters"/>
-          <UCheckbox v-model="settings.noHints" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/>
-          <UCheckbox v-model="settings.hidePrevious" label="Hide previous guesses" description="You will only be able to see the most recent guess"/>
+          <label><UCheckbox v-model="settings.onlyValid" label="Only valid words" description="Allow only valid English words"/></label>
+          <label><UCheckbox v-model="settings.hardMode" label="Forced hard mode" description="You are forced to always use already discovered letters"/></label>
+          <label><UCheckbox v-model="settings.noHints" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/></label>
+          <label><UCheckbox v-model="settings.hidePrevious" label="Hide previous guesses" description="You will only be able to see the most recent guess"/></label>
 
           <!-- maybe disappearing previous guesses -->
         </UForm>

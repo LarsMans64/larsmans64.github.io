@@ -20,10 +20,12 @@ function press(key: string) {
     emit("keyPressed", key);
   }
 }
+const activeElement = useActiveElement();
+const hasFocus = computed(() => activeElement.value?.tagName === 'BODY');
 
 onMounted(() => {
   document.addEventListener("keydown", event => {
-    if (hasFocus() || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
+    if (!hasFocus.value || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
       return;
     }
 
@@ -36,11 +38,6 @@ onMounted(() => {
   })
 })
 
-function hasFocus() {
-  return Array
-      .from(document.querySelectorAll("body *"))
-      .some(el => el === document.activeElement);
-}
 </script>
 
 <template>
@@ -48,7 +45,7 @@ function hasFocus() {
     <div v-for="row in keys" class="flex justify-center gap-1">
       <UButton
           v-for="key in row"
-          class="w-[1.5em] sm:w-[2em] h-[2.5em] text-lg sm:text-2xl text-highlighted flex justify-center items-center border-2 hover:-translate-y-0.5 transition-all"
+          class="w-[1.5em] sm:w-[2em] h-[2.5em] text-lg sm:text-2xl text-highlighted flex justify-center items-center border-2 hover:-translate-y-0.5 transition"
           :class="{
             'grow': 'eb'.includes(key),
             'bg-slate-200 border-slate-300 dark:bg-slate-600 dark:border-slate-500 hover:bg-slate-200 hover:dark:bg-slate-600': !keyHints?.get(key),

@@ -4,6 +4,7 @@
 button:not(:disabled),
 [role="button"]:not(:disabled),
 [role="checkbox"]:not(:disabled),
-label:not(:disabled) {
+label:not(:has(:disabled)):not(.cursor-not-allowed) {
     cursor: pointer;
+    user-select: none;
 }
