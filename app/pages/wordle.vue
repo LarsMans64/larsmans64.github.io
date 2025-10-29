@@ -1,13 +1,24 @@
 <script setup lang="ts">
 import "~/assets/wordle.css";
 import {parseSettings, type WordleSettings} from "~/utils/wordle";
+import WordleSettingsSwitch from "~/components/WordleSettingsSwitch.vue";
+
+const toast = useToast();
 
 const query = useRoute().query["w"];
-
 const loadedSettings = ref<WordleSettings>();
 
-if (query && typeof query !== 'object') {
-  loadedSettings.value = parseSettings(query);
+if (query && !Array.isArray(query)) {
+  const parsedSettings = parseSettings(query);
+  if (parsedSettings) {
+    loadedSettings.value = parsedSettings;
+  } else {
+    toast.add({
+      title: "There was an error parsing the link :(",
+      color: "error",
+      icon: "material-symbols:error",
+    })
+  }
 }
 
 const settings = ref<WordleSettings | undefined>(loadedSettings.value ? JSON.parse(JSON.stringify(loadedSettings.value)) : undefined);
@@ -30,34 +41,58 @@ const settingsOpen = useLocalStorage("settings-open", true);
     <UMain class="p-2 py-6">
       <UPage v-if="settings">
         <template #left>
-          <UCollapsible v-model:open="settingsOpen" class="group flex flex-col gap-5 px-3 pb-7">
-            <UButton
-                class="text-muted"
-                variant="soft" color="neutral"
-                trailing-icon="material-symbols:arrow-drop-down-rounded"
-                :ui="{ trailingIcon: 'group-data-[state=open]:-scale-y-100 transition-transform duration-300 ease-out' }"
-                block
-            >
-              Settings
-            </UButton>
+          <div class="flex flex-col gap-5 px-2 pb-10">
+            <WordleGeneratorModal>
+              <UButton
+                  variant="subtle"
+                  label="Create custom link"
+                  icon="material-symbols:add"
+                  size="lg"
+                  class="group"
+                  :ui="{ leadingIcon: 'group-hover:rotate-90 transition-transform ease-in-out duration-500' }"
+              />
+            </WordleGeneratorModal>
 
-            <template #content>
-              <div class="flex flex-col gap-5 p-3 pt-5 rounded-md border border-default">
-                <WordleGeneratorModal>
-                  <UButton variant="subtle" label="Create custom link" icon="material-symbols:add" size="lg"/>
-                </WordleGeneratorModal>
+            <UCollapsible v-model:open="settingsOpen" class="group">
+              <UButton
+                  label="Game Options"
+                  variant="soft"
+                  color="neutral"
+                  trailing-icon="material-symbols:expand-more"
+                  :ui="{ trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-300 ease-out group-hover:scale-120' }"
+                  block
+              />
 
-                <USeparator/>
+              <template #content>
+                <div class="flex flex-col gap-7 p-3 pt-5">
+                  <WordleSettingsSwitch
+                      v-model="settings.onlyValid"
+                      :forced="loadedSettings?.onlyValid"
+                      label="Only valid words"
+                      description="Only allow valid English words"/>
 
-                <div class="flex flex-col gap-7 py-3">
-                  <label><USwitch v-model="settings.onlyValid" :disabled="loadedSettings?.onlyValid" :color="loadedSettings?.onlyValid ? 'neutral' : undefined" label="Only valid words" description="Only allow valid English words"/></label>
-                  <label><USwitch v-model="settings.hardMode" :disabled="loadedSettings?.hardMode" :color="loadedSettings?.hardMode ? 'neutral' : undefined" label="Hard mode" description="You are forced to always use already discovered letters"/></label>
-                  <label><USwitch v-model="settings.noHints" :disabled="loadedSettings?.noHints" :color="loadedSettings?.noHints ? 'neutral' : undefined" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/></label>
-                  <label><USwitch v-model="settings.hidePrevious" :disabled="loadedSettings?.hidePrevious" :color="loadedSettings?.hidePrevious ? 'neutral' : undefined" label="Hide previous guesses" description="You will only be able to see the most recent guess"/></label>
+                  <WordleSettingsSwitch
+                      v-model="settings.hardMode"
+                      :forced="loadedSettings?.hardMode"
+                      label="Hard mode"
+                      description="You are forced to always use already discovered letters"/>
+
+                  <WordleSettingsSwitch
+                      v-model="settings.noHints"
+                      :forced="loadedSettings?.noHints"
+                      label="No keyboard hints"
+                      description="Discovered letters won't show on the keyboard"/>
+
+                  <WordleSettingsSwitch
+                      v-model="settings.hidePrevious"
+                      :forced="loadedSettings?.hidePrevious"
+                      label="Hide previous guesses"
+                      description="You will only be able to see the most recent guess"/>
+
                 </div>
-              </div>
-            </template>
-          </UCollapsible>
+              </template>
+            </UCollapsible>
+          </div>
         </template>
 
         <div class="overflow-hidden">

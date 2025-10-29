@@ -26,7 +26,9 @@ export function parseSettings(str: string): WordleSettings | undefined {
         return undefined;
     }
 
+
     if (!result || !result[1] || !result[2]) {
+        console.error("Could not parse regex: " + str);
         return undefined;
     }
 
@@ -43,10 +45,10 @@ export function parseSettings(str: string): WordleSettings | undefined {
     return settings;
 }
 
-export function serializeSettings(settings: WordleSettings) {
+export function serializeSettings(settings: WordleSettings, overrideWord?: string) {
     return btoa(
         settings.attempts.toString()
-        + settings.word
+        + (overrideWord ?? settings.word)
         + (settings.onlyValid ? "1" : "0")
         + (settings.hardMode ? "1" : "0")
         + (settings.noHints ? "1" : "0")
@@ -75,7 +77,6 @@ export function verifyWord(inputWord: string, targetWord: string): WordleLetterS
         if (!letter || letter == "_") continue;
 
         if (targetWordArr.includes(letter)) {
-            console.log(letter, i)
             result[i] = WordleLetterState.WrongPosition;
             targetWordArr[targetWordArr.findIndex(l => l == letter)] = "_";
         }

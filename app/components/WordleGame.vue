@@ -51,21 +51,32 @@ const toast = useToast();
 
 async function enterPressed() {
   if (typedWord.length != wordLength) {
-    toast.add({title: "Really?", duration: 1000, progress: false});
+    toast.add({
+      title: "Really?",
+      duration: 1000,
+      progress: false
+    });
     return;
   }
 
   if (props.settings.hardMode && !containsAllHints(typedWord)) {
-    toast.add({title: "You need to use all discovered letters in hard mode!"});
+    toast.add({
+      title: "You need to use all discovered letters in hard mode!",
+      icon: "material-symbols:info-outline",
+    });
     return;
   }
 
   if (typedWord !== props.settings.word && props.settings.onlyValid) {
     try {
+      // if 200, the word is valid
       await $fetch<any>("https://api.dictionaryapi.dev/api/v2/entries/en/" + typedWord.toLowerCase());
-
     } catch (e) {
-      toast.add({title: `${typedWord} is an invalid word!`, color: "warning"});
+      toast.add({
+        title: `${typedWord} is an invalid word!`,
+        color: "warning",
+        icon: "material-symbols:warning-rounded"
+      });
       return;
     }
   }

@@ -19,15 +19,24 @@ watch(settings, () => {
   }
 });
 
+const randomWord = ref(false);
+
 const linkPrefix = window?.location.origin + window?.location.pathname + "?w=";
 
-const result = computed(() => serializeSettings(settings));
+const result = computedAsync(async () => {
+  if (randomWord.value) {
+    const randomLength = Math.floor(Math.random() * 3 + 4);
+    const randomWords = await $fetch<string[]>("https://random-word-api.herokuapp.com/word?length=" + randomLength);
+    return serializeSettings(settings, randomWords[0]?.toUpperCase());
+  }
+
+  return serializeSettings(settings);
+}, "");
 
 const link = computed(() => linkPrefix + result.value);
 
 const isValidWord = computed(() => {
-  return /^[A-Z]+$/.test(settings.word)
-      && settings.attempts > 0;
+  return randomWord.value || /^[A-Z]+$/.test(settings.word) && settings.attempts > 0;
 })
 
 function copy() {
@@ -47,11 +56,9 @@ function play() {
 }
 
 // Autofocus word input
-watch(isOpen, (val) => {
+whenever(isOpen, () => {
   setTimeout(() => {
-    if (val) {
-      wordInput.value?.inputRef?.focus();
-    }
+    wordInput.value?.inputRef?.focus();
   }, 100);
 })
 </script>
@@ -67,9 +74,13 @@ watch(isOpen, (val) => {
     <template #body>
       <div class="flex flex-col gap-7">
         <UForm class="grid sm:grid-cols-2 gap-x-5 gap-y-8">
-          <UFormField label="Custom word" required>
-            <UInput v-model.trim="settings.word" ref="wordInput" variant="subtle" placeholder="Xnopyt" class="w-full"/>
-          </UFormField>
+          <div>
+            <UFormField label="Custom word" required>
+              <UInput v-model.trim="settings.word" ref="wordInput" variant="subtle" placeholder="Xnopyt" :disabled="randomWord" class="w-full"/>
+            </UFormField>
+
+            <USwitch v-model="randomWord" label="Random word" class="mt-3"/>
+          </div>
 
           <UFormField label="Max number of attempts" required>
             <UInputNumber v-model="settings.attempts" variant="subtle" class="w-full"/>
