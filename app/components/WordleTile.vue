@@ -26,7 +26,7 @@ watch(() => props.state, () => {
       displayState.value = props.state;
     }, 200);
 
-  }, props.index * 100)
+  }, props.index * 150)
 })
 </script>
 

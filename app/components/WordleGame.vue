@@ -40,6 +40,11 @@ function backspacePressed() {
   updateField();
 }
 
+function clearPressed() {
+  typedWord = "";
+  updateField();
+}
+
 function updateField() {
   field.value[typingRow.value]?.forEach((letter, index) => {
     letter.letter = typedWord[index] ?? undefined;
@@ -150,6 +155,7 @@ function doShake() {
           @key-pressed="keyPressed"
           @enter-pressed="enterPressed"
           @backspace-pressed="backspacePressed"
+          @clear-pressed="clearPressed"
           :key-hints="settings.noHints ? undefined : keyHints"/>
     </div>
   </div>

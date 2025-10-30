@@ -9,13 +9,18 @@ const emit = defineEmits<{
   keyPressed: [key: string]
   enterPressed: []
   backspacePressed: []
+  clearPressed: []
 }>();
 
-function press(key: string) {
+function press(key: string, ctrl: boolean) {
   if (key === "e" || key === "Enter") {
     emit("enterPressed");
   } else if (key === "b" || key === "Backspace") {
-    emit("backspacePressed");
+    if (ctrl) {
+      emit("clearPressed");
+    } else {
+      emit("backspacePressed");
+    }
   } else {
     emit("keyPressed", key);
   }
@@ -25,15 +30,15 @@ const hasFocus = computed(() => activeElement.value?.tagName === 'BODY');
 
 onMounted(() => {
   document.addEventListener("keydown", event => {
-    if (!hasFocus.value || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
+    if (!hasFocus.value || event.shiftKey || event.altKey || event.metaKey) {
       return;
     }
 
     if ("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm".includes(event.key)) {
-      press(event.key.toUpperCase());
+      press(event.key.toUpperCase(), event.ctrlKey);
     }
     else if (event.key === "Enter" || event.key === "Backspace") {
-      press(event.key);
+      press(event.key, event.ctrlKey);
     }
   })
 })
