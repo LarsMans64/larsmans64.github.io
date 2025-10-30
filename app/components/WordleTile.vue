@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import WordleAnswerTile from "~/components/WordleAnswerTile.vue";
+
 const props = defineProps<{
   index: number,
   state: WordleLetterState,
@@ -32,17 +34,7 @@ watch(() => props.state, () => {
   <div :class="{plop, swap}">
     <WordleTextTile v-if="(hide || displayState == WordleLetterState.Empty) && letter" :letter="hide ? '?' : letter"/>
     <WordleEmptyTile v-else-if="displayState == WordleLetterState.Empty && !letter"/>
-    <div v-else
-         class="wordle-tile"
-         :class="{
-      'border-muted': displayState == WordleLetterState.Empty,
-      'wordle-wrong': displayState == WordleLetterState.Wrong,
-      'wordle-wrong-position': displayState == WordleLetterState.WrongPosition,
-      'wordle-correct': displayState == WordleLetterState.Correct,
-    }"
-    >
-      {{letter ?? " "}}
-    </div>
+    <WordleAnswerTile v-else :letter="letter" :state="displayState"/>
   </div>
 </template>
 

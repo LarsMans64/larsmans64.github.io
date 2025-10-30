@@ -19,25 +19,23 @@ watch(settings, () => {
   }
 });
 
-const randomWord = ref(false);
-
-const linkPrefix = window?.location.origin + window?.location.pathname + "?w=";
-
-const result = computedAsync(async () => {
-  if (randomWord.value) {
-    const randomLength = Math.floor(Math.random() * 3 + 4);
-    const randomWords = await $fetch<string[]>("https://random-word-api.herokuapp.com/word?length=" + randomLength);
-    return serializeSettings(settings, randomWords[0]?.toUpperCase());
+const useRandomWord = useLocalStorage("new-random", false);
+const randomWord = computedAsync(async () => {
+  if (!useRandomWord.value) {
+    return undefined;
   }
 
-  return serializeSettings(settings);
-}, "");
+  const randomLength = Math.floor(Math.random() * 3 + 4);
+  const randomWords = await $fetch<string[]>("https://random-word-api.herokuapp.com/word?length=" + randomLength);
+  return randomWords[0]?.toUpperCase();
+}, undefined);
 
+const result = computed(() => serializeSettings(settings, randomWord.value));
+
+const linkPrefix = window?.location.origin + window?.location.pathname + "?w=";
 const link = computed(() => linkPrefix + result.value);
 
-const isValidWord = computed(() => {
-  return randomWord.value || /^[A-Z]+$/.test(settings.word) && settings.attempts > 0;
-})
+const isValidWord = computed(() => (useRandomWord.value && randomWord.value || /^[A-Z]+$/.test(settings.word)) && settings.attempts > 0);
 
 function copy() {
   navigator.clipboard.writeText(link.value);
@@ -64,7 +62,7 @@ whenever(isOpen, () => {
 </script>
 
 <template>
-  <UModal title="Generate a link" v-model:open="isOpen">
+  <UModal title="Generate a link" v-model:open="isOpen" :ui="{content: 'max-w-xl'}">
     <slot/>
 
     <template #description>
@@ -76,10 +74,10 @@ whenever(isOpen, () => {
         <UForm class="grid sm:grid-cols-2 gap-x-5 gap-y-8">
           <div>
             <UFormField label="Custom word" required>
-              <UInput v-model.trim="settings.word" ref="wordInput" variant="subtle" placeholder="Xnopyt" :disabled="randomWord" class="w-full"/>
+              <UInput v-model.trim="settings.word" ref="wordInput" variant="subtle" placeholder="Xnopyt" :disabled="useRandomWord" class="w-full"/>
             </UFormField>
 
-            <USwitch v-model="randomWord" label="Random word" class="mt-3"/>
+            <USwitch v-model="useRandomWord" label="Random word" class="mt-3"/>
           </div>
 
           <UFormField label="Max number of attempts" required>
@@ -90,8 +88,6 @@ whenever(isOpen, () => {
           <label><UCheckbox v-model="settings.hardMode" label="Forced hard mode" description="You are forced to always use already discovered letters"/></label>
           <label><UCheckbox v-model="settings.noHints" label="No keyboard hints" description="Discovered letters won't show on the keyboard"/></label>
           <label><UCheckbox v-model="settings.hidePrevious" label="Hide previous guesses" description="You will only be able to see the most recent guess"/></label>
-
-          <!-- maybe disappearing previous guesses -->
         </UForm>
 
         <USeparator/>
@@ -102,7 +98,7 @@ whenever(isOpen, () => {
           </div>
           <div class="flex gap-5 overflow-hidden">
             <div
-                class="bg-elevated border-1 border-accented rounded-md px-3 py-2 grow overflow-x-auto text-sm flex items-center text-nowrap"
+                class="result bg-elevated border-1 border-accented rounded-md px-3 py-2 grow overflow-x-auto text-sm flex items-center text-nowrap"
                 :class="{'text-muted': !isValidWord}"
             >
               <span>{{ linkPrefix }}</span>
@@ -123,5 +119,7 @@ whenever(isOpen, () => {
 </template>
 
 <style scoped>
-
+.result {
+  scrollbar-width: thin;
+}
 </style>
