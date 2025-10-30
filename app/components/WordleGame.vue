@@ -47,6 +47,8 @@ function updateField() {
 }
 
 const keyHints = ref<Map<string, WordleLetterState>>(new Map());
+const correctLetters = ref<Map<number, string>>(new Map());
+
 const toast = useToast();
 
 async function enterPressed() {
@@ -62,7 +64,7 @@ async function enterPressed() {
 
   if (props.settings.hardMode && !containsAllHints(typedWord)) {
     toast.add({
-      title: "You need to use all discovered letters in hard mode!",
+      title: "You need to re-use all discovered letters in hard mode!",
       icon: "material-symbols:info-outline",
     });
     doShake();
@@ -90,26 +92,36 @@ async function enterPressed() {
     const letter = field.value[typingRow.value]?.[index]
     if (!letter || !letter.letter) return;
     letter.state = value;
-    addKeyHint(letter.letter, value);
+    addKeyHint(letter.letter, index, value);
   })
 
   typingRow.value++;
   typedWord = "";
 }
 
-function addKeyHint(letter: string, state: WordleLetterState) {
+function addKeyHint(letter: string, index: number, state: WordleLetterState) {
   const saved = keyHints.value.get(letter);
   if (!saved || saved < state) {
     keyHints.value.set(letter, state);
   }
+  if (state === WordleLetterState.Correct) {
+    correctLetters.value.set(index, letter);
+  }
 }
 
 function containsAllHints(word: string) {
-  for (const [letter, state] of keyHints.value.entries()) {
-    if ((state === WordleLetterState.WrongPosition || state === WordleLetterState.Correct) && !word.includes(letter)) {
+  for (const [index, letter] of correctLetters.value.entries()) {
+    if (word[index] !== letter) {
       return false;
     }
   }
+
+  for (const [letter, state] of keyHints.value.entries()) {
+    if (state === WordleLetterState.WrongPosition && !word.includes(letter)) {
+      return false;
+    }
+  }
+
   return true;
 }
 
