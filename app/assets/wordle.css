@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+/*noinspection CssUnknownTarget*/
+@font-face {
+    font-family: "Lexend";
+    src: url("/fonts/Lexend.ttf");
+}
+
 @theme {
     --font-sans: "Lexend";
 }

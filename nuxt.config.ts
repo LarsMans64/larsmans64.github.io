@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 
     routeRules: {
         "/wordle": {
-            ssr: false
+            ssr: false,
         }
     },
 
@@ -18,10 +18,8 @@ export default defineNuxtConfig({
         serverBundle: false,
     },
 
-    fonts: {
-        families: [
-            { name: 'Lexend', provider: 'google' },
-        ]
+    ui: {
+        fonts: false,
     },
 
     vite: {
