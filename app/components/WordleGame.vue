@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {verifyWord, WordleLetterState} from "~/utils/wordle"
+import type {Toast} from "#ui/composables/useToast";
 
 const props = defineProps<{
   settings: WordleSettings
@@ -53,40 +54,46 @@ function updateField() {
 
 const keyHints = ref<Map<string, WordleLetterState>>(new Map());
 const correctLetters = ref<Map<number, string>>(new Map());
+const invalidWordCache: string[] = [];
 
-const toast = useToast();
+const toasts = useToast();
 
 async function enterPressed() {
   if (typedWord.length != wordLength) {
-    toast.add({
+    invalidWord({
       title: "Really?",
       duration: 1000,
       progress: false
     });
-    doShake();
     return;
   }
 
   if (props.settings.hardMode && !containsAllHints(typedWord)) {
-    toast.add({
+    invalidWord({
       title: "You need to re-use all discovered letters in hard mode!",
       icon: "material-symbols:info-outline",
     });
-    doShake();
     return;
   }
 
   if (typedWord !== props.settings.word && props.settings.onlyValid) {
+    const toast: Partial<Toast> = {
+      title: `${typedWord} is an invalid word!`,
+      color: "warning",
+      icon: "material-symbols:warning-rounded"
+    };
+
+    if (invalidWordCache.includes(typedWord)) {
+      invalidWord(toast);
+      return;
+    }
+
     try {
       // if 200, the word is valid
       await $fetch<any>("https://api.dictionaryapi.dev/api/v2/entries/en/" + typedWord.toLowerCase());
     } catch (e) {
-      toast.add({
-        title: `${typedWord} is an invalid word!`,
-        color: "warning",
-        icon: "material-symbols:warning-rounded"
-      });
-      doShake();
+      invalidWordCache.push(typedWord);
+      invalidWord(toast);
       return;
     }
   }
@@ -104,6 +111,15 @@ async function enterPressed() {
   typedWord = "";
 }
 
+const shake = refAutoReset(false, 800);
+
+function invalidWord(toast?: Partial<Toast>) {
+  if (toast) {
+    toasts.add(toast);
+  }
+  shake.value = true;
+}
+
 function addKeyHint(letter: string, index: number, state: WordleLetterState) {
   const saved = keyHints.value.get(letter);
   if (!saved || saved < state) {
@@ -115,12 +131,14 @@ function addKeyHint(letter: string, index: number, state: WordleLetterState) {
 }
 
 function containsAllHints(word: string) {
+  // Check correct letters
   for (const [index, letter] of correctLetters.value.entries()) {
     if (word[index] !== letter) {
       return false;
     }
   }
 
+  // Check almost correct letters
   for (const [letter, state] of keyHints.value.entries()) {
     if (state === WordleLetterState.WrongPosition && !word.includes(letter)) {
       return false;
@@ -128,11 +146,6 @@ function containsAllHints(word: string) {
   }
 
   return true;
-}
-
-const shake = refAutoReset(false, 800);
-function doShake() {
-  shake.value = true;
 }
 </script>
 

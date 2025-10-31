@@ -12,15 +12,13 @@ const emit = defineEmits<{
   clearPressed: []
 }>();
 
-function press(key: string, ctrl: boolean) {
+function press(key: string) {
   if (key === "e" || key === "Enter") {
     emit("enterPressed");
   } else if (key === "b" || key === "Backspace") {
-    if (ctrl) {
-      emit("clearPressed");
-    } else {
-      emit("backspacePressed");
-    }
+    emit("backspacePressed");
+  } else if (key === "c") {
+    emit("clearPressed");
   } else {
     emit("keyPressed", key);
   }
@@ -34,11 +32,21 @@ onMounted(() => {
       return;
     }
 
-    if ("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm".includes(event.key)) {
-      press(event.key.toUpperCase(), event.ctrlKey);
+    if (event.ctrlKey) {
+      if (event.key === "Backspace") {
+        press("c");
+      }
+      return;
     }
-    else if (event.key === "Enter" || event.key === "Backspace") {
-      press(event.key, event.ctrlKey);
+
+    if ("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm".includes(event.key)) {
+      press(event.key.toUpperCase());
+      return;
+    }
+
+    if (event.key === "Enter" || event.key === "Backspace") {
+      press(event.key);
+      return;
     }
   })
 })

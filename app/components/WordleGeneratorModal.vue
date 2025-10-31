@@ -121,5 +121,6 @@ whenever(isOpen, () => {
 <style scoped>
 .result {
   scrollbar-width: thin;
+  scrollbar-color: var(--color-neutral-400) var(--ui-bg-elevated);
 }
 </style>

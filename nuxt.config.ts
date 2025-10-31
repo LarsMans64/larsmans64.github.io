@@ -18,6 +18,12 @@ export default defineNuxtConfig({
         serverBundle: false,
     },
 
+    fonts: {
+        families: [
+            { name: 'Lexend', provider: 'google' },
+        ]
+    },
+
     vite: {
         plugins: [
             tailwindcss(),
