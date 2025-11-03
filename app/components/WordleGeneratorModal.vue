@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {serializeSettings} from "~/utils/wordle";
+import {copyText, serializeSettings} from "~/utils/wordle";
 
 const toast = useToast();
 const wordInput = useTemplateRef("wordInput");
@@ -38,11 +38,7 @@ const link = computed(() => linkPrefix + result.value);
 const isValidWord = computed(() => (useRandomWord.value && randomWord.value || /^[A-Z]+$/.test(settings.word)) && settings.attempts > 0);
 
 function copy() {
-  navigator.clipboard.writeText(link.value);
-  toast.add({
-    title: "Copied to Clipboard!",
-    icon: "material-symbols:check",
-  })
+  copyText(link.value);
 }
 
 function close() {

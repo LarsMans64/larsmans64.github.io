@@ -12,7 +12,7 @@
 }
 
 .wordle-tile {
-    @apply w-[2.3em] h-[2.3em] flex items-center justify-center text-2xl sm:text-3xl text-black dark:text-white font-semibold border-2 rounded-sm
+    @apply w-[2.3em] aspect-square flex items-center justify-center text-2xl sm:text-3xl text-black dark:text-white font-semibold border-2 rounded-sm
 }
 
 .wordle-empty {

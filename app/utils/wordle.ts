@@ -1,3 +1,10 @@
+const toast = useToast();
+
+export interface TileData {
+    letter?: string,
+    state: WordleLetterState;
+}
+
 export enum WordleLetterState {
     Empty = 0,
     Wrong = 1,
@@ -83,4 +90,12 @@ export function verifyWord(inputWord: string, targetWord: string): WordleLetterS
     }
 
     return result;
+}
+
+export async function copyText(text: string) {
+    await navigator.clipboard.writeText(text);
+    toast.add({
+        title: "Copied to Clipboard!",
+        icon: "material-symbols:check",
+    })
 }

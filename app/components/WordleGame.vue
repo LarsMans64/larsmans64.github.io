@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import {verifyWord, WordleLetterState} from "~/utils/wordle"
+import {type TileData, verifyWord, WordleLetterState} from "~/utils/wordle"
 import type {Toast} from "#ui/composables/useToast";
+
+const toasts = useToast();
 
 const props = defineProps<{
   settings: WordleSettings
 }>();
-
-interface TileData {
-  letter?: string,
-  state: WordleLetterState;
-}
 
 const wordLength = props.settings.word.length;
 
@@ -29,8 +26,14 @@ for (let i = 0; i < props.settings.attempts; i++) {
 let typedWord = "";
 const typingRow = ref(0);
 
+const isSolved = computed(() => field.value.some(row => row.every(tile => tile.state == WordleLetterState.Correct)));
+const isDone = computed(() => isSolved.value || typingRow.value >= props.settings.attempts);
+const resultsOpen = ref(false);
+
+whenever(isDone, () => setTimeout(() => resultsOpen.value = true, 1500));
+
 function keyPressed(key: string) {
-  if (typedWord.length < wordLength && typingRow.value < props.settings.attempts) {
+  if (!isDone.value && typedWord.length < wordLength && typingRow.value < props.settings.attempts) {
     typedWord = typedWord.concat(key);
     updateField();
   }
@@ -56,14 +59,12 @@ const keyHints = ref<Map<string, WordleLetterState>>(new Map());
 const correctLetters = ref<Map<number, string>>(new Map());
 const invalidWordCache: string[] = [];
 
-const toasts = useToast();
-
 async function enterPressed() {
   if (typedWord.length != wordLength) {
     invalidWord({
       title: "Really?",
       duration: 1000,
-      progress: false
+      progress: false,
     });
     return;
   }
@@ -151,7 +152,7 @@ function containsAllHints(word: string) {
 
 <template>
   <div>
-    <div class="flex flex-col gap-2 justify-self-center overflow-auto p-3">
+    <div class="flex flex-col gap-2 justify-self-center overflow-auto p-3 select-none">
       <div v-for="(row, i) in field" class="flex gap-2" :class="{'shake': shake && i == typingRow}">
         <WordleTile
             v-for="(tile, j) in row"
@@ -171,10 +172,38 @@ function containsAllHints(word: string) {
           @clear-pressed="clearPressed"
           :key-hints="settings.noHints ? undefined : keyHints"/>
     </div>
+
+    <div class="flex justify-center mt-10">
+      <WordleResultsModal
+          :field="field"
+          :won="isSolved"
+          :attempts="typingRow"
+          :total-attempts="settings.attempts"
+          v-model="resultsOpen"
+      >
+        <Transition name="fade">
+          <div v-if="isDone">
+            <UButton label="Open Results" size="xl"/>
+          </div>
+        </Transition>
+      </WordleResultsModal>
+    </div>
   </div>
 </template>
 
 <style scoped>
+/*noinspection CssUnusedSymbol*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+/*noinspection CssUnusedSymbol*/
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .shake {
   animation: shake 500ms linear;
 }
