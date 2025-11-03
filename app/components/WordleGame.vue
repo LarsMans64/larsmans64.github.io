@@ -183,7 +183,7 @@ function containsAllHints(word: string) {
       >
         <Transition name="fade">
           <div v-if="isDone">
-            <UButton label="Open Results" size="xl"/>
+            <UButton label="Open Results" size="xl" variant="subtle"/>
           </div>
         </Transition>
       </WordleResultsModal>
@@ -195,7 +195,7 @@ function containsAllHints(word: string) {
 /*noinspection CssUnusedSymbol*/
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 2s ease;
+  transition: opacity 4s ease;
 }
 
 /*noinspection CssUnusedSymbol*/
