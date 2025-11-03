@@ -99,3 +99,7 @@ export async function copyText(text: string) {
         icon: "material-symbols:check",
     })
 }
+
+export const actuallyCorrectWords = [
+    "WORDLE", "AS", "IS", "VOEMR",
+]

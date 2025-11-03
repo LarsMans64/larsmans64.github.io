@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {type TileData, verifyWord, WordleLetterState} from "~/utils/wordle"
+import {actuallyCorrectWords, type TileData, verifyWord, WordleLetterState} from "~/utils/wordle"
 import type {Toast} from "#ui/composables/useToast";
 
 const toasts = useToast();
@@ -77,7 +77,7 @@ async function enterPressed() {
     return;
   }
 
-  if (typedWord !== props.settings.word && props.settings.onlyValid) {
+  if (typedWord !== props.settings.word && !actuallyCorrectWords.includes(typedWord) && props.settings.onlyValid) {
     const toast: Partial<Toast> = {
       title: `${typedWord} is an invalid word!`,
       color: "warning",
@@ -195,7 +195,7 @@ function containsAllHints(word: string) {
 /*noinspection CssUnusedSymbol*/
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 2s ease;
 }
 
 /*noinspection CssUnusedSymbol*/
